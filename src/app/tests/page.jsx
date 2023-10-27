@@ -7,7 +7,7 @@ export default function Tests() {
        <textarea>
 
        </textarea>
-       <button className="mt-100">Button</button>
+       <button className="btn">Button</button>
       </main>
     )
   }
