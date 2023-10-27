@@ -2,7 +2,8 @@
 const nextConfig = {
     reactStrictMode: true,
     env:{
-        OPENAI_API_KEY : "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",
+        OPENAI_API_KEY : "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",
+        ALCHEMY_ID: "TTp4e27AFORb22MAMW2985Z5MdqcbPJT"
     }
 }
 
