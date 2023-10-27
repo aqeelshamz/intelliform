@@ -6,14 +6,14 @@ import {
 } from '@rainbow-me/rainbowkit';
 import { configureChains, createConfig, WagmiConfig } from 'wagmi';
 import {
-  polygon,
+  polygonMumbai
 } from 'wagmi/chains';
 import { alchemyProvider } from 'wagmi/providers/alchemy';
 import { publicProvider } from 'wagmi/providers/public';
 
 function Navbar() {
   const { chains, publicClient } = configureChains(
-    [polygon],
+    [polygonMumbai],
     [
       alchemyProvider({ apiKey: process.env.ALCHEMY_ID }),
       publicProvider()
