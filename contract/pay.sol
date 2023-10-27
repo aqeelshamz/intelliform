@@ -21,4 +21,3 @@ contract FormContract {
         return address(this).balance;
     }
 }
-`
