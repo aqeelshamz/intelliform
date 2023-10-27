@@ -5,6 +5,10 @@ import { PiMagicWandFill } from "react-icons/pi";
 import Modal from "../components/modal";
 
 export default function Home() {
+  const temp = () => {
+    document.getElementById("my_modal_2").showModal();
+    document.getElementById("my_modal_1").close();
+  };
   return (
     <>
       <Navbar />
@@ -82,12 +86,16 @@ export default function Home() {
         </div>
       </main>
       {/* Modals */}
+      {/* modal 1 */}
       <dialog id="my_modal_1" className="modal">
         <div className="modal-box">
-          <h3 className="font-bold text-lg">Create form</h3>
+          <h3 className="font-bold text-2xl">Create form</h3>
           <div className="flex mt-6 justify-center gap-8">
             {" "}
-            <button className="btn h-36 h- w-36 btn-square btn-outline">
+            <button
+              className="btn h-36 h- w-36 btn-square btn-outline"
+              onClick={temp}
+            >
               <PiMagicWandFill className="h-20 w-20" />
               using AI{" "}
             </button>{" "}
@@ -98,12 +106,33 @@ export default function Home() {
           </div>
           <div className="modal-action">
             <form method="dialog">
-              {/* if there is a button in form, it will close the modal */}
               <button className="btn">Close</button>
             </form>
           </div>
         </div>
       </dialog>
+      {/* modal 1 end */}
+      {/* modal 2  */}
+
+      {/* You can open the modal using document.getElementById('ID').showModal() method */}
+
+      <dialog id="my_modal_2" className="modal">
+        <div className="modal-box w-11/12 max-w-3xl">
+          <h3 className="font-bold text-2xl">Create form using AI</h3>
+          <textarea
+            placeholder="Tell us about your form..."
+            className="mt-6 border-black border-2  textarea textarea-bordered textarea-lg min-h-[250px] w-full max-w-3xl"
+          ></textarea>
+          <div className="modal-action mt-2 flex justify-center ">
+            <button className="btn mt-0 bg-black text-white hover:bg-black hover:text-white hover:text-2xl h-16  w-[728px] mx-12 text-xl">
+              {" "}
+              <PiMagicWandFill />
+              Generate form
+            </button>
+          </div>
+        </div>
+      </dialog>
+      {/* modal 2 end  */}
     </>
   );
 }
