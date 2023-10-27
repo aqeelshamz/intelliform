@@ -1,5 +1,7 @@
+"use client";
 import Navbar from "../components/Navbar";
 import { FiEdit, FiTrash2 } from "react-icons/fi";
+import Modal from "../components/modal";
 
 export default function Home() {
   return (
@@ -7,9 +9,7 @@ export default function Home() {
       {" "}
       <Navbar />
       <main className="container mx-auto">
-        <button className="btn mt-4 btn-xs sm:btn-sm md:btn-md lg:btn-lg">
-          + New Form
-        </button>
+        <Modal />
         <p className="text-2xl md:text-4xl my-4 font-semibold">My forms</p>
         <div className="overflow-x-auto">
           <table className="table table-zebra bg-gray-200">
