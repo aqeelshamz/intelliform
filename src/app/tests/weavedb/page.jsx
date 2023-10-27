@@ -14,10 +14,25 @@ export default function Test() {
     initDB();
   }, []);
 
-  const addForm = () => {
+  const addForm = async () => {
     const formData = {
-      title: ""
+      id: "s3dj89",
+      author: db.signer(),
+      title: "Sample Form",
+      description: "This is the description for the sample form",
+      fields: [
+        {
+          id: "1",
+          title: "Name",
+          type: "text",
+          required: true,
+        }
+      ]
     };
+
+    await db.add(formData, "forms");
+
+    alert("Form added!");
   }
 
   return (
