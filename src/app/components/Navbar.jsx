@@ -26,9 +26,9 @@ function Navbar() {
   });
 
   return (
-    <WagmiConfig config={wagmiConfig}>
+    <WagmiConfig config={wagmiConfig} className="sticky top-0 z-50">
       <RainbowKitProvider chains={chains}>
-        <div className="navbar bg-base-100 flex justify-between border-b">
+        <div className="navbar bg-base-100 flex justify-between border-b sticky top-30 z-54">
           <a className="btn btn-ghost normal-case text-xl">IntelliForm</a>
           <div className="m-2">
             <ConnectButton />
