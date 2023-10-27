@@ -11,6 +11,7 @@
   "dependencies": {
     "@lit-protocol/lit-node-client": "^2.2.61",
     "@rainbow-me/rainbowkit": "^1.1.3",
+    "ethers": "^6.8.0",
     "next": "14.0.0",
     "openai": "^4.14.0",
     "react": "^18",
