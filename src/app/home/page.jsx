@@ -14,7 +14,7 @@ export default function Home() {
       <Navbar />
       <main className="container mx-auto">
         <button
-          className="btn mt-4 btn-xs sm:btn-sm md:btn-md lg:btn-lg "
+          className="btn mt-4 btn-xs sm:btn-sm md:btn-md lg:btn-lg hover:bg-black hover:text-white"
           onClick={() => document.getElementById("my_modal_1").showModal()}
         >
           + New Form
