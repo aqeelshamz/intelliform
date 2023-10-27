@@ -28,7 +28,7 @@ const Modal = () => {
 
       <dialog id="my_modal_1" className="modal">
         <div className="modal-box">
-          <h3 className="font-bold text-lg">Create form</h3>
+          <h3 className="font-bold text-lg">Creatse form</h3>
           <div className="flex justify-center">
             {" "}
             <button className="btn btn-square btn-outline">
