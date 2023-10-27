@@ -10,11 +10,11 @@ export default function Tests() {
   const [formData, setFormData] = useState();
 
   const generateForm = async () => {
-    console.log("key", process.env.OPENAI_API_KEY);
+    console.log("key", process.env.NEXT_PUBLIC_OPENAI_API_KEY);
 
     setLoading(true);
     const openai = new OpenAI({
-      apiKey: process.env.OPENAI_API_KEY,
+      apiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY,
       dangerouslyAllowBrowser: true
     });
 
