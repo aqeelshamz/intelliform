@@ -54,13 +54,13 @@ export default function Home({ params: { formId } }) {
             Responses ({responses.length})
           </a>
         </div>
-        <div className="bg-blue-200 p-5">
-          <p
-            className="cursor-pointer underline text-blue-500"
+        <div className="bg-blue-400 rounded-full p-5 text-white ">
+          <a
+            className="cursor-pointer underline bg:text-blue-500 "
             onClick={() => window.open("http://localhost:3000/forms/" + formId)}
           >
             https://intelliform.io/forms/{formId}
-          </p>
+          </a>
         </div>
         <button
           className="m-5 mr-10 btn btn-primary"
@@ -82,7 +82,7 @@ export default function Home({ params: { formId } }) {
                 <div className="row1 title">
                   <div className="">
                     <span className="text-3xl font-bold ">
-                      Responses for '{form?.title}'
+                      Responses for &apos;{form?.title}&apos;
                     </span>{" "}
                   </div>
                 </div>
