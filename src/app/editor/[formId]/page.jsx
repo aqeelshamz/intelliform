@@ -11,7 +11,6 @@ import "react-toastify/dist/ReactToastify.css";
 import { MdOutlineShortText, MdOutlineNumbers, MdAttachMoney } from "react-icons/md";
 import { useEffect, useState } from "react";
 import WeaveDB from "weavedb-sdk";
-import { storeFiles } from "../../../utils/ipfsUpload";
 import Link from "next/link";
 
 export default function Home({ params: { formId } }) {
@@ -22,7 +21,6 @@ export default function Home({ params: { formId } }) {
 
 	const [form, setForm] = useState();
 	const [allForms, setAllForms] = useState();
-	const [uploadedURL, setUploadedURL] = useState(null);
 
 	const [loadingFormData, setLoadingFormData] = useState(true);
 
@@ -77,20 +75,6 @@ export default function Home({ params: { formId } }) {
 		setTimeout(() => {
 			window.location.href = "/home";
 		}, 1500);
-	};
-
-	const handleFileUpload = async (event) => {
-		try {
-			const files = event.target.files;
-			if (files.length > 0) {
-				const fileURL = await storeFiles(files);
-				setUploadedURL(fileURL);
-			} else {
-				console.error("No files selected.");
-			}
-		} catch (error) {
-			console.error("Error uploading files:", error);
-		}
 	};
 
 	return (
@@ -159,9 +143,6 @@ export default function Home({ params: { formId } }) {
 												></textarea>
 											) : field?.type === "payment" ? (
 												<button className="btn btn-primary">Pay {field?.amount} MATIC</button>
-											) : field?.type === "file" ? (
-												<input type="file" multiple onChange={handleFileUpload} />
-                        // console.log(uploadedURL)
 											) : (
 												<input
 													disabled
