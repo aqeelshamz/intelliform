@@ -90,7 +90,7 @@ export default function Home({ params: { formId } }) {
                           pay(field?.amount);
                         }}
                       >
-                        Register
+                        Pay {field?.amount} MATIC
                       </button>
                     ) : (
                       <input
