@@ -21,11 +21,16 @@ export default function Home() {
     const [forms, setForms] = useState([]);
 
     const [db, setDB] = useState();
+
+    const [loadingForms, setLoadingForms] = useState(true);
+
     const initDB = async () => {
+        setLoadingForms(true);
         const db = new WeaveDB({ contractTxId: "oj9GzEHQDlK_VQfvGBKFXvyq_zDHdr5m8N0PAU8GysM" });
         await db.init();
         setForms(await db.get("forms"));
         setDB(db);
+        setLoadingForms(false);
     }
 
     const generateForm = async () => {
@@ -93,43 +98,47 @@ export default function Home() {
                 >
                     + New Form
                 </button>
-                <p className="text-xl my-4 font-semibold">My forms ({forms.length})</p>
-                <div className="overflow-x-auto">
-                    <table className="table table-zebra bg-gray-200">
-                        {/* head */}
-                        <thead className="bg-gray-400 text-white">
-                            <tr>
-                                <th></th>
-                                <th>Name</th>
-                                <th>Responses</th>
-                                <th>Edit</th>
-                                <th>Delete</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {/* row 1 */}
-                            {
-                                forms?.map((form, index) => {
-                                    return <tr key={index}>
-                                        <th>{index + 1}</th>
-                                        <td className="font-semibold text-[1rem]">{form?.title}</td>
-                                        <td>23</td>
-                                        <td>
-                                            <button className="btn btn-square btn-outline" onClick={() => window.location.href = "/editor/" + form?.id}>
-                                                <FiEdit className="h-6 w-6" />
-                                            </button>
-                                        </td>
-                                        <td>
-                                            <button className="btn text-red-500 hover:bg-red-500 hover:border-white border-red-500 btn-outline">
-                                                <FiTrash2 className="h-6 w-6" />
-                                            </button>
-                                        </td>
-                                    </tr>
-                                })
-                            }
-                        </tbody>
-                    </table>
-                </div>
+                {loadingForms ? <div>
+                    <span className="loading loading-spinner loading-lg"></span>
+                </div> : <>
+                    <p className="text-xl my-4 font-semibold">My forms ({forms.length})</p>
+                    <div className="overflow-x-auto">
+                        <table className="table table-zebra bg-gray-200">
+                            {/* head */}
+                            <thead className="bg-gray-400 text-white">
+                                <tr>
+                                    <th></th>
+                                    <th>Name</th>
+                                    <th>Responses</th>
+                                    <th>Edit</th>
+                                    <th>Delete</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {/* row 1 */}
+                                {
+                                    forms?.map((form, index) => {
+                                        return <tr key={index}>
+                                            <th>{index + 1}</th>
+                                            <td className="font-semibold text-[1rem]">{form?.title}</td>
+                                            <td>23</td>
+                                            <td>
+                                                <button className="btn btn-square btn-outline" onClick={() => window.location.href = "/editor/" + form?.id}>
+                                                    <FiEdit className="h-6 w-6" />
+                                                </button>
+                                            </td>
+                                            <td>
+                                                <button className="btn text-red-500 hover:bg-red-500 hover:border-white border-red-500 btn-outline">
+                                                    <FiTrash2 className="h-6 w-6" />
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    })
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </>}
             </main>
             {/* Modals */}
             {/* modal 1 */}

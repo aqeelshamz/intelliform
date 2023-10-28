@@ -13,12 +13,16 @@ export default function Home({ params: { formId } }) {
   const [db, setDB] = useState();
   const [form, setForm] = useState();
 
+  const [loadingFormData, setLoadingFormData] = useState(true);
+
   const initDB = async () => {
+    setLoadingFormData(true);
     const db = new WeaveDB({ contractTxId: "oj9GzEHQDlK_VQfvGBKFXvyq_zDHdr5m8N0PAU8GysM" });
     await db.init();
     setForm((await db.get("forms", ["id", "==", formId]))[0]);
     console.log((await db.get("forms", ["id", "==", formId]))[0]);
     setDB(db);
+    setLoadingFormData(false);
   }
 
   useEffect(() => {
@@ -33,7 +37,9 @@ export default function Home({ params: { formId } }) {
         <a className="tab tab-lg tab-lifted Responses (11)">Responses (11)</a>
       </div>
       <main className="container mx-auto relative mt-6 ">
-        <div className="border-black w-full border-2 h-auto rounded-xl p-3 pl-8 mb-20 pb-20">
+        {loadingFormData ? <div>
+          <span className="loading loading-spinner loading-lg"></span>
+        </div> : <div className="border-black w-full border-2 h-auto rounded-xl p-3 pl-8 mb-20 pb-20">
           <div className="row0 flex justify-end">
             <button className="btn  text-red-500 hover:bg-red-500 hover:border-white border-red-500 btn-outline">
               <FiTrash2 className="h-6 w-6 " />
@@ -98,7 +104,7 @@ export default function Home({ params: { formId } }) {
               })
             }
           </div>
-        </div>
+        </div>}
       </main>
     </>
   );
