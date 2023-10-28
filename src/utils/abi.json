@@ -2,19 +2,17 @@
 	{
 		"inputs": [
 			{
-				"internalType": "address payable",
-				"name": "recipient",
+				"internalType": "address",
+				"name": "account",
 				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "id",
+				"type": "uint256"
 			}
 		],
-		"name": "register",
-		"outputs": [],
-		"stateMutability": "payable",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "getContractBalance",
+		"name": "balanceOf",
 		"outputs": [
 			{
 				"internalType": "uint256",
