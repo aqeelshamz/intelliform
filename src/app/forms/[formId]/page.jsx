@@ -9,6 +9,12 @@ import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Link from "next/link";
+import { FiAtSign, FiCheckCircle, FiCreditCard } from "react-icons/fi";
+import { MdOutlineNumbers, MdOutlineShortText } from "react-icons/md";
+import { BiSelectMultiple } from "react-icons/bi";
+import { BsCalendar2Date, BsTextareaResize } from "react-icons/bs";
+import { FaRegFile } from "react-icons/fa";
+import { TbPhone } from "react-icons/tb";
 
 export default function Form({ params: { formId } }) {
   const [form, setForm] = useState();
@@ -58,7 +64,8 @@ export default function Form({ params: { formId } }) {
     }
 
     const options = { value: ethers.parseEther(amount?.toString()) };
-    contract.register(form?.author, options).then((res) => {
+    contract.register(form?.author, options).then(async (res) => {
+      await res.wait()
       console.log(res);
       answers[fieldId] = amount;
       setAnswers({ ...answers });
@@ -114,7 +121,7 @@ export default function Form({ params: { formId } }) {
   };
 
   return (
-    <main className="container mx-auto relative mt-6">
+    <main>
       {formSubmitted ? <div>
         <div className="row1 title">
           <div className="flex items-center gap-3">
@@ -131,18 +138,31 @@ export default function Form({ params: { formId } }) {
           <span className="loading loading-spinner loading-lg"></span>
         </div>
       ) : (
-        <div className="border-black w-full border-2 h-auto rounded-xl p-3 pl-8 mb-20 pb-10">
-          <div className="row1 title">
+        <div className="flex flex-col items-center bg-white rounded-xl py-10 px-20">
+          <div className="row1 title flex flex-col items-center">
             <div className="flex items-center gap-3">
-              <span className="text-3xl font-bold ">{form?.title}</span>{" "}
+              <span className="text-3xl font-bold ">{form?.title}</span>
+            </div>
+            <div className="mt-5 flex items-center gap-3">
+              <span className="text-md">{form?.description}</span>
             </div>
           </div>
-          <div className="inputs">
+          <div className="inputs min-w-[50vw]">
             {form?.fields?.map((field, index) => {
               return (
                 <div className="inputrow" key={index}>
                   <div className="flex items-center gap-3 mt-5">
-                    <label className="text-xl font-semibold">{field?.title}</label>
+                    <label className="flex items-center text-md font-semibold">{({
+                      "text": <MdOutlineShortText className="mr-2" />,
+                      "longtext": <BsTextareaResize className="mr-2" />,
+                      "multiplechoice": <BiSelectMultiple className="mr-2" />,
+                      "numbers": <MdOutlineNumbers className="mr-2" />,
+                      "date": <BsCalendar2Date className="mr-2" />,
+                      "file": <FaRegFile className="mr-2" />,
+                      "phone": <TbPhone className="mr-2" />,
+                      "payment": <FiCreditCard className="mr-2" />,
+                      "email": <FiAtSign className="mr-2" />,
+                    })[field?.type] ?? <MdOutlineShortText className="mr-2" />}{field?.title}</label>
                   </div>
                   <div className="flex items-center gap-3 mt-3">
                     {field?.type === "multiplechoice" ? (
@@ -171,7 +191,7 @@ export default function Form({ params: { formId } }) {
                           pay(field?.amount, field?.id);
                         }}
                       >
-                        Pay {field?.amount} MATIC
+                        <FiCreditCard /> Pay {field?.amount} MATIC
                       </button> : <p className="font-semibold text-md ml-2">✅ Paid {field?.amount} MATIC</p>
                     ) : field?.type === "file" ? (answers[field?.id]) ? <p className="font-semibold text-md ml-2">✅ File uploaded: <Link className="underline text-blue-500" href={answers[field?.id]} target="_blank">{answers[field?.id]}</Link></p> : (
                       uploadingFile ? <div className="flex items-center">
@@ -198,15 +218,15 @@ export default function Form({ params: { formId } }) {
                 </div>
               );
             })}
-            <hr className="my-5" />
+            <hr className="my-5 mt-10" />
             {submittingForm ? <div className="flex items-center">
               <span className="loading loading-spinner loading-md"></span>
               <p className="font-semibold text-md ml-2">Submitting form...</p>
-            </div> : address ? <button className="btn btn-primary" onClick={submitForm}>Submit form</button> : <div className="flex flex-col">
+            </div> : address ? <button className="btn btn-primary" onClick={submitForm}><FiCheckCircle /> Submit form</button> : <div className="flex flex-col">
               <p className="mb-5 font-semibold">Connect wallet to submit form</p>
               <ConnectButton /></div>}
             <div className="flex items-center mt-5">
-              <p>powered by</p><p className="ml-2 text-xl font-semibold">Intelliform</p>
+              <p>powered by</p><p className="ml-2 text-xl font-semibold">IntelliForm</p>
             </div>
           </div>
         </div>

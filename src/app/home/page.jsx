@@ -1,5 +1,5 @@
 "use client";
-import { FiEdit, FiTrash2 } from "react-icons/fi";
+import { FiEdit, FiEye, FiTrash2 } from "react-icons/fi";
 import { FaRegFile } from "react-icons/fa";
 import { TbPhone } from "react-icons/tb";
 import { BsTextareaResize, BsCalendar2Date } from "react-icons/bs";
@@ -201,6 +201,7 @@ export default function Home() {
                                         <th></th>
                                         <th>Name</th>
                                         <th>Responses</th>
+                                        <th>View</th>
                                         <th>Edit</th>
                                         <th>Delete</th>
                                     </tr>
@@ -215,6 +216,17 @@ export default function Home() {
                                                     {form?.data?.title}
                                                 </td>
                                                 <td>0</td>
+                                                <td>
+                                                    <button
+                                                        className="btn btn-square btn-outline"
+                                                        onClick={() =>
+                                                        (window.open(
+                                                            "/forms/" + form?.data?.id))
+                                                        }
+                                                    >
+                                                        <FiEye className="h-6 w-6" />
+                                                    </button>
+                                                </td>
                                                 <td>
                                                     <button
                                                         className="btn btn-square btn-outline"
