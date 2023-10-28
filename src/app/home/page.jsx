@@ -99,8 +99,6 @@ export default function Home() {
 
       const tx = await db.add(formData, "forms");
       console.log(tx);
-      console.log(await db.getIds(tx));
-      // await db.update({ id: docId }, "forms", docId);
 
       console.log("Saved to DB");
 
@@ -114,6 +112,38 @@ export default function Home() {
     }
 
     setGeneratingForm(false);
+  };
+
+  const [creatingForm, setCreatingForm] = useState(false);
+
+  const createFormScratch = async () => {
+    setCreatingForm(true);
+    //Save form to database
+    const formId = uuidv4();
+    const formData = {
+      id: formId,
+      author: db.signer(),
+      title: "Untitled form",
+      description: "This is the description for the sample form",
+      fields: [
+        { id: "a28b29", title: "Name", type: "text", required: true },
+        { id: "z2cx29", title: "Address", type: "longtext", required: true },
+      ],
+      responses: 0,
+    };
+
+    const tx = await db.add(formData, "forms");
+    console.log(tx);
+
+    console.log("Saved to DB");
+
+    setCreatingForm(false);
+
+    document.getElementById("my_modal_1").close();
+
+    setTimeout(() => {
+      window.location.href = "/editor/" + formId;
+    }, 5000);
   };
 
   useEffect(() => {
@@ -221,25 +251,27 @@ export default function Home() {
       <dialog id="my_modal_1" className="modal">
         <div className="modal-box max-w-xl">
           <h3 className="font-bold text-2xl">Create form</h3>
-          <div className="flex mt-6 max-w-fulloverflow-hidden">
-            <button
-              className="flex flex-col btn min-h-[200px] w-[48%]"
-              onClick={temp}
-            >
-              <PiMagicWandFill className="h-20 w-20" />
-              using AI{" "}
-            </button>
-            <div className="w-[4%]"></div>
-            <button
-              className="flex flex-col btn min-h-[200px] w-[48%]"
-              onClick={() => {
-                document.getElementById("my_modal_3").showModal();
-              }}
-            >
-              <FiEdit className="h-20 w-20" />
-              from scratch
-            </button>
-          </div>
+          {creatingForm ? (
+            "Creating form..."
+          ) : (
+            <div className="flex mt-6 max-w-fulloverflow-hidden">
+              <button
+                className="flex flex-col btn min-h-[200px] w-[48%]"
+                onClick={temp}
+              >
+                <PiMagicWandFill className="h-20 w-20" />
+                using AI{" "}
+              </button>
+              <div className="w-[4%]"></div>
+              <button
+                className="flex flex-col btn min-h-[200px] w-[48%]"
+                onClick={createFormScratch}
+              >
+                <FiEdit className="h-20 w-20" />
+                from scratch
+              </button>
+            </div>
+          )}
           <div className="modal-action">
             <form method="dialog">
               <button className="btn">Close</button>
@@ -285,83 +317,7 @@ export default function Home() {
           </div>
         </div>
       </dialog>
-      {/* modal 2 end  */}
-      {/* modal 3 */}
-      <dialog id="my_modal_3" className="modal">
-        <div className="modal-box max-w-[950px] max-h-[450px]">
-          <h3 className="font-bold text-2xl">Choose form input</h3>
-          <div className="flex flex-wrap mt-6 gap-5 text-2xl max-w-full overflow-hidden">
-            <button
-              className="flex btn btn-outline  w-[271px] h-[69px] "
-              onClick={temp}
-            >
-              <MdOutlineShortText size={28} />
-              Text
-            </button>
-            <button
-              className="flex btn btn-outline  w-[271px] h-[69px] "
-              onClick={temp}
-            >
-              <BsTextareaResize size={28} />
-              Long text
-            </button>
-            <button
-              className="flex btn btn-outline  w-[271px] h-[69px] "
-              onClick={temp}
-            >
-              <HiOutlineMail size={28} />
-              Email
-            </button>
-            <button
-              className="flex btn btn-outline  w-[271px] h-[69px] "
-              onClick={temp}
-            >
-              <BiSelectMultiple size={28} />
-              Multiple Choice
-            </button>
-            <button
-              className="flex btn btn-outline  w-[271px] h-[69px] "
-              onClick={temp}
-            >
-              <MdOutlineNumbers size={28} />
-              Number
-            </button>
-            <button
-              className="flex btn btn-outline  w-[271px] h-[69px] "
-              onClick={temp}
-            >
-              <BsCalendar2Date size={25} />
-              Date
-            </button>
-            <button
-              className="flex btn btn-outline  w-[271px] h-[69px] "
-              onClick={temp}
-            >
-              <FaRegFile size={25} />
-              File
-            </button>
-            <button
-              className="flex btn btn-outline  w-[271px] h-[69px] "
-              onClick={temp}
-            >
-              <TbPhone size={24} />
-              Phone
-            </button>
-            <button
-              className="flex btn btn-outline  w-[271px] h-[69px] "
-              onClick={temp}
-            >
-              <MdAttachMoney size={27} className="-mt-1" />
-              Cash
-            </button>
-          </div>
-          <div className="modal-action">
-            <form method="dialog">
-              <button className="btn">Close</button>
-            </form>
-          </div>
-        </div>
-      </dialog>
+      <ToastContainer />
     </>
   );
 }
