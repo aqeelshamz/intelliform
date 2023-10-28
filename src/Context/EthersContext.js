@@ -16,16 +16,12 @@ export default function Ethers({ children }) {
   //   const [currentAccount, setCurrentAccount] = useState(null);
 
   const pay = (value) => {
-    try {
-      const options = { value: ethers.parseEther(value.toString()) };
-      contract
-        .register("0x179dad1E22CF3d6f90c43b2936072D121619cE43", options)
-        .then((res) => {
-          console.log(res);
-        });
-    } catch (error) {
-      console.log(error);
-    }
+    const options = { value: ethers.parseEther(value.toString()) };
+    contract
+      .register("0x179dad1E22CF3d6f90c43b2936072D121619cE43", options)
+      .then((res) => {
+        console.log(res);
+      });
   };
 
   const checkIfWalletIsConnect = async () => {
