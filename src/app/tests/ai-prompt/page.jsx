@@ -1,5 +1,5 @@
 "use client";
-import { formGenerationPrompt } from "../../utils/util";
+import { formGenerationPrompt } from "../../../utils/util";
 import OpenAI from "openai";
 import { useState } from "react";
 
