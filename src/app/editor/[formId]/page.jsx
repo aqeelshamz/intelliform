@@ -6,8 +6,8 @@ import { TbPhone } from "react-icons/tb";
 import { BsTextareaResize, BsCalendar2Date } from "react-icons/bs";
 import { HiOutlineMail } from "react-icons/hi";
 import { BiSelectMultiple } from "react-icons/bi";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import {
   MdOutlineShortText,
   MdOutlineNumbers,
@@ -54,13 +54,13 @@ export default function Home({ params: { formId } }) {
     for (const form of allForms) {
       if (form?.data?.id === formId) {
         console.log(formId);
-        console.log(form?.id)
+        console.log(form?.id);
         docId = form?.id;
       }
     }
 
     console.log(await db.update(form, "forms", docId));
-    toast.success('Form saved successfully!');
+    toast.success("Form saved successfully!");
   };
 
   const deleteForm = async () => {
@@ -68,18 +68,18 @@ export default function Home({ params: { formId } }) {
     for (const form of allForms) {
       if (form?.data?.id === formId) {
         console.log(formId);
-        console.log(form?.id)
+        console.log(form?.id);
         docId = form?.id;
       }
     }
 
     console.log(await db.delete("forms", docId));
-    toast.success('Form deleted successfully!');
+    toast.success("Form deleted successfully!");
 
     setTimeout(() => {
       window.location.href = "/home";
     }, 1500);
-  }
+  };
 
   return (
     <>
@@ -107,7 +107,10 @@ export default function Home({ params: { formId } }) {
         ) : (
           <div className="border-black w-full border-2 h-auto rounded-xl p-3 pl-8 mb-20 pb-20">
             <div className="row0 flex justify-end">
-              <button onClick={deleteForm} className="btn  text-red-500 hover:bg-red-500 hover:border-white border-red-500 btn-outline">
+              <button
+                onClick={deleteForm}
+                className="btn  text-red-500 hover:bg-red-500 hover:border-white border-red-500 btn-outline"
+              >
                 <FiTrash2 className="h-6 w-6 " />
               </button>
             </div>
@@ -185,6 +188,13 @@ export default function Home({ params: { formId } }) {
                 );
               })}
             </div>
+
+            <button
+              className="btn mt-10 mb-5 btn-xs sm:btn-sm md:btn-md lg:btn-lg bg-black hover:bg-gray-700  text-white w-96 lg:w-[896px]"
+              onClick={() => document.getElementById("my_modal_1").showModal()}
+            >
+              Add Content
+            </button>
           </div>
         )}
       </main>
@@ -265,7 +275,7 @@ export default function Home({ params: { formId } }) {
           </div>
         </div>
       </dialog>
-      <ToastContainer/>
+      <ToastContainer />
     </>
   );
 }
