@@ -80,7 +80,7 @@ export default function Home({ params: { formId } }) {
   return (
     <>
       <Navbar />
-      <div className="flex justify-between tabs mt-3 sticky top-0 z-50 bg-white">
+      <div className="flex justify-between tabs mt-3 sticky top-0 z-50 border-b bg-white">
         <div>
           <a className="tab tab-lg tab-lifted tab-active">Editor</a>
           <Link href={"/responses/" + formId} className="tab tab-lg tab-lifted">Responses</Link>
@@ -91,7 +91,7 @@ export default function Home({ params: { formId } }) {
         >
           https://intelliform.io/forms/{formId}
         </p>
-        <button className="mr-10 btn btn-primary" onClick={saveForm}>
+        <button className="m-5 mr-10 btn btn-primary" onClick={saveForm}>
           Save
         </button>
       </div>

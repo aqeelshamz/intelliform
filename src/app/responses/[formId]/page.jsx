@@ -45,19 +45,21 @@ export default function Home({ params: { formId } }) {
   return (
     <>
       <Navbar />
-      <div className="flex justify-between tabs mt-3 sticky top-0 z-50 bg-white">
+      <div className="flex items-center justify-between tabs mt-3 sticky top-0 z-50 border-b bg-white">
         <div>
           <Link href={"/editor/" + formId} className="tab tab-lg tab-lifted ">Editor</Link>
           <a className="tab tab-lg tab-lifted tab-active">Responses ({responses.length})</a>
         </div>
-        <p
-          className="cursor-pointer underline text-blue-500"
-          onClick={() => window.open("http://localhost:3000/forms/" + formId)}
-        >
-          https://intelliform.io/forms/{formId}
-        </p>
+        <div className="bg-blue-200 p-5">
+          <p
+            className="cursor-pointer underline text-blue-500"
+            onClick={() => window.open("http://localhost:3000/forms/" + formId)}
+          >
+            https://intelliform.io/forms/{formId}
+          </p>
+        </div>
         <button
-          className="mr-10 btn btn-primary"
+          className="m-5 mr-10 btn btn-primary"
           onClick={() => document.getElementById("my_modal_1").showModal()}
         >
           Export
