@@ -17,8 +17,8 @@ import OpenAI from "openai";
 import { formGenerationPrompt } from "../../utils/util";
 import { v4 as uuidv4 } from "uuid";
 import WeaveDB from "weavedb-sdk";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { useAccount } from "wagmi";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 
@@ -44,20 +44,27 @@ export default function Home() {
 
     const initDB = async () => {
         setLoadingForms(true);
-        const db = new WeaveDB({ contractTxId: "oj9GzEHQDlK_VQfvGBKFXvyq_zDHdr5m8N0PAU8GysM" });
+        const db = new WeaveDB({
+            contractTxId: "oj9GzEHQDlK_VQfvGBKFXvyq_zDHdr5m8N0PAU8GysM",
+        });
         await db.init();
         console.log("Address is: " + address);
 
         if (address) {
-            setForms(await db.cget("forms", ["author"], ["author", "==", address.toLowerCase()]));
+            setForms(
+                await db.cget(
+                    "forms",
+                    ["author"],
+                    ["author", "==", address.toLowerCase()]
+                )
+            );
             setUserNotLoggedIn(false);
-        }
-        else {
+        } else {
             setUserNotLoggedIn(true);
         }
         setDB(db);
         setLoadingForms(false);
-    }
+    };
 
     const generateForm = async () => {
         setGeneratingForm(true);
@@ -119,8 +126,8 @@ export default function Home() {
             title: "Untitled form",
             description: "This is the description for the sample form",
             fields: [
-                { "id": "a28b29", "title": "Name", "type": "text", "required": true },
-                { "id": "z2cx29", "title": "Address", "type": "longtext", "required": true },
+                { id: "a28b29", title: "Name", type: "text", required: true },
+                { id: "z2cx29", title: "Address", type: "longtext", required: true },
             ],
             responses: 0,
         };
@@ -137,7 +144,7 @@ export default function Home() {
         setTimeout(() => {
             window.location.href = "/editor/" + formId;
         }, 5000);
-    }
+    };
 
     useEffect(() => {
         initDB();
@@ -158,18 +165,26 @@ export default function Home() {
         <>
             <Navbar />
             <main className="container mx-auto pt-5">
-                {loadingForms ? "" : userNotLoggedIn ? <div className="flex flex-col">
-                    <p className="text-xl my-4 font-semibold mb-5">
-                        Connect your wallet to start creating forms.
-                    </p>
-                    <ConnectButton />
-                </div> : <button
-                    className="btn mt-4 mb-5 btn-xs sm:btn-sm md:btn-md lg:btn-lg hover:bg-black hover:text-white"
-                    onClick={() => document.getElementById("my_modal_1").showModal()}
-                >
-                    + New Form
-                </button>}
-                {userNotLoggedIn ? "" : loadingForms ? (
+                {loadingForms ? (
+                    ""
+                ) : userNotLoggedIn ? (
+                    <div className="flex flex-col">
+                        <p className="text-xl my-4 font-semibold mb-5">
+                            Connect your wallet to start creating forms.
+                        </p>
+                        <ConnectButton />
+                    </div>
+                ) : (
+                    <button
+                        className="btn mt-4 mb-5 btn-xs sm:btn-sm md:btn-md lg:btn-lg hover:bg-black hover:text-white"
+                        onClick={() => document.getElementById("my_modal_1").showModal()}
+                    >
+                        + New Form
+                    </button>
+                )}
+                {userNotLoggedIn ? (
+                    ""
+                ) : loadingForms ? (
                     <div>
                         <span className="loading loading-spinner loading-lg"></span>
                     </div>
@@ -204,17 +219,21 @@ export default function Home() {
                                                     <button
                                                         className="btn btn-square btn-outline"
                                                         onClick={() =>
-                                                            (window.location.href = "/editor/" + form?.data?.id)
+                                                        (window.location.href =
+                                                            "/editor/" + form?.data?.id)
                                                         }
                                                     >
                                                         <FiEdit className="h-6 w-6" />
                                                     </button>
                                                 </td>
                                                 <td>
-                                                    <button className="btn text-red-500 hover:bg-red-500 hover:border-white border-red-500 btn-outline" onClick={async () => {
-                                                        console.log(await db.delete("forms", form?.id));
-                                                        toast.success('Form deleted successfully!');
-                                                    }}>
+                                                    <button
+                                                        className="btn text-red-500 hover:bg-red-500 hover:border-white border-red-500 btn-outline"
+                                                        onClick={async () => {
+                                                            console.log(await db.delete("forms", form?.id));
+                                                            toast.success("Form deleted successfully!");
+                                                        }}
+                                                    >
                                                         <FiTrash2 className="h-6 w-6" />
                                                     </button>
                                                 </td>
@@ -232,23 +251,27 @@ export default function Home() {
             <dialog id="my_modal_1" className="modal">
                 <div className="modal-box max-w-xl">
                     <h3 className="font-bold text-2xl">Create form</h3>
-                    {creatingForm ? "Creating form..." : <div className="flex mt-6 max-w-fulloverflow-hidden">
-                        <button
-                            className="flex flex-col btn min-h-[200px] w-[48%]"
-                            onClick={temp}
-                        >
-                            <PiMagicWandFill className="h-20 w-20" />
-                            using AI{" "}
-                        </button>
-                        <div className="w-[4%]"></div>
-                        <button
-                            className="flex flex-col btn min-h-[200px] w-[48%]"
-                            onClick={createFormScratch}
-                        >
-                            <FiEdit className="h-20 w-20" />
-                            from scratch
-                        </button>
-                    </div>}
+                    {creatingForm ? (
+                        "Creating form..."
+                    ) : (
+                        <div className="flex mt-6 max-w-fulloverflow-hidden">
+                            <button
+                                className="flex flex-col btn min-h-[200px] w-[48%]"
+                                onClick={temp}
+                            >
+                                <PiMagicWandFill className="h-20 w-20" />
+                                using AI{" "}
+                            </button>
+                            <div className="w-[4%]"></div>
+                            <button
+                                className="flex flex-col btn min-h-[200px] w-[48%]"
+                                onClick={createFormScratch}
+                            >
+                                <FiEdit className="h-20 w-20" />
+                                from scratch
+                            </button>
+                        </div>
+                    )}
                     <div className="modal-action">
                         <form method="dialog">
                             <button className="btn">Close</button>
@@ -294,7 +317,7 @@ export default function Home() {
                     </div>
                 </div>
             </dialog>
-            <ToastContainer/>
+            <ToastContainer />
         </>
     );
 }
