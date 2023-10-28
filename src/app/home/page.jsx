@@ -60,7 +60,8 @@ export default function Home() {
                 author: db.signer(),
                 title: data?.title,
                 description: data?.description,
-                fields: data?.fields
+                fields: data?.fields,
+                responses: 0
             };
 
             console.log(await db.add(formData, "forms"));
@@ -121,7 +122,7 @@ export default function Home() {
                                         return <tr key={index}>
                                             <th>{index + 1}</th>
                                             <td className="font-semibold text-[1rem]">{form?.title}</td>
-                                            <td>23</td>
+                                            <td>0</td>
                                             <td>
                                                 <button className="btn btn-square btn-outline" onClick={() => window.location.href = "/editor/" + form?.id}>
                                                     <FiEdit className="h-6 w-6" />
