@@ -30,7 +30,9 @@ export default function Test() {
     <div>
       <Navbar />
       <h1>Payable</h1>
-      <button className="btn btn-primary" onClick={pay}>Pay 0.0003 MATIC</button>
+      <button className="btn btn-primary" onClick={()=>{
+        pay()
+      }}>Pay 0.0003 MATIC</button>
     </div>
   )
 }
