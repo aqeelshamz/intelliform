@@ -3,13 +3,8 @@
 		"inputs": [
 			{
 				"internalType": "address",
-				"name": "account",
+				"name": "owner",
 				"type": "address"
-			},
-			{
-				"internalType": "uint256",
-				"name": "id",
-				"type": "uint256"
 			}
 		],
 		"name": "balanceOf",
