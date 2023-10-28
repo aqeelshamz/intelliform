@@ -7,8 +7,8 @@ const encryptToIPFS = () => {
 			string: "Encrypt & store on IPFS seamlessly with Lit",
 			//   file, // If you want to encrypt a file instead of a string
 			litNodeClient: this.litNodeClient,
-			infuraId: "YOUR INFURA PROJECT ID",
-			infuraSecretKey: "YOUR INFURA API-SECRET-KEY",
+			infuraId: "7daccb90ab594777abdeff7f25a293e6",
+			infuraSecretKey: "16d44f221f924980a5154dd03f14f593",
 		});
 	};
 
