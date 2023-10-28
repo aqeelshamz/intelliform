@@ -7,6 +7,8 @@ import OpenAI from "openai";
 import { formGenerationPrompt } from "../../utils/util";
 import { v4 as uuidv4 } from 'uuid';
 import WeaveDB from "weavedb-sdk";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function Home() {
     const [prompt, setPrompt] = useState("");
@@ -28,7 +30,7 @@ export default function Home() {
         setLoadingForms(true);
         const db = new WeaveDB({ contractTxId: "oj9GzEHQDlK_VQfvGBKFXvyq_zDHdr5m8N0PAU8GysM" });
         await db.init();
-        setForms(await db.get("forms"));
+        setForms(await db.cget("forms"));
         setDB(db);
         setLoadingForms(false);
     }
@@ -124,15 +126,21 @@ export default function Home() {
                                     forms?.map((form, index) => {
                                         return <tr key={index}>
                                             <th>{index + 1}</th>
-                                            <td className="font-semibold text-[1rem]">{form?.title}</td>
+                                            <td className="font-semibold text-[1rem]">{form?.data?.title}</td>
                                             <td>0</td>
                                             <td>
-                                                <button className="btn btn-square btn-outline" onClick={() => window.location.href = "/editor/" + form?.id}>
+                                                <button className="btn btn-square btn-outline" onClick={() => window.location.href = "/editor/" + form?.data?.id}>
                                                     <FiEdit className="h-6 w-6" />
                                                 </button>
                                             </td>
                                             <td>
-                                                <button className="btn text-red-500 hover:bg-red-500 hover:border-white border-red-500 btn-outline">
+                                                <button className="btn text-red-500 hover:bg-red-500 hover:border-white border-red-500 btn-outline" onClick={async () => {
+                                                    console.log(await db.delete("forms", form?.id));
+                                                    toast.success('Form deleted successfully!');
+                                                    setTimeout(() => {
+                                                        window.location.reload();
+                                                    }, 1500);
+                                                }}>
                                                     <FiTrash2 className="h-6 w-6" />
                                                 </button>
                                             </td>
@@ -203,6 +211,7 @@ export default function Home() {
                 </div>
             </dialog>
             {/* modal 2 end  */}
+            <ToastContainer />
         </>
     );
 }

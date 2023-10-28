@@ -6,6 +6,8 @@ import { TbPhone } from "react-icons/tb";
 import { BsTextareaResize, BsCalendar2Date } from "react-icons/bs";
 import { HiOutlineMail } from "react-icons/hi";
 import { BiSelectMultiple } from "react-icons/bi";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import {
   MdOutlineShortText,
@@ -17,12 +19,13 @@ import WeaveDB from "weavedb-sdk";
 import Link from "next/link";
 
 export default function Home({ params: { formId } }) {
-  // const temp = () => {
-  //   document.getElementById("my_modal_2").showModal();
-  //   document.getElementById("my_modal_1").close();
-  // };
+  const temp = () => {
+    document.getElementById("my_modal_2").showModal();
+    document.getElementById("my_modal_1").close();
+  };
 
   const [form, setForm] = useState();
+  const [allForms, setAllForms] = useState();
 
   const [loadingFormData, setLoadingFormData] = useState(true);
 
@@ -38,6 +41,8 @@ export default function Home({ params: { formId } }) {
     setForm((await db.get("forms", ["id", "==", formId]))[0]);
     console.log((await db.get("forms", ["id", "==", formId]))[0]);
     setLoadingFormData(false);
+    const allForms = await db.cget("forms");
+    setAllForms(allForms);
   };
 
   useEffect(() => {
@@ -46,10 +51,36 @@ export default function Home({ params: { formId } }) {
 
   const saveForm = async () => {
     // console.log(await db.update(form, "forms"));
-    console.log(
-      await db.getIds(await db.get("forms", ["id"], ["id", "==", formId]))[0]
-    );
+    var docId = "";
+    for (const form of allForms) {
+      if (form?.data?.id === formId) {
+        console.log(formId);
+        console.log(form?.id)
+        docId = form?.id;
+      }
+    }
+
+    console.log(await db.update(form, "forms", docId));
+    toast.success('Form saved successfully!');
   };
+
+  const deleteForm = async () => {
+    var docId = "";
+    for (const form of allForms) {
+      if (form?.data?.id === formId) {
+        console.log(formId);
+        console.log(form?.id)
+        docId = form?.id;
+      }
+    }
+
+    console.log(await db.delete("forms", docId));
+    toast.success('Form deleted successfully!');
+
+    setTimeout(() => {
+      window.location.href = "/home";
+    }, 1500);
+  }
 
   return (
     <>
@@ -77,7 +108,7 @@ export default function Home({ params: { formId } }) {
         ) : (
           <div className="border-black w-full border-2 h-auto rounded-xl p-3 pl-8 mb-20 pb-20">
             <div className="row0 flex justify-end">
-              <button className="btn  text-red-500 hover:bg-red-500 hover:border-white border-red-500 btn-outline">
+              <button onClick={deleteForm} className="btn  text-red-500 hover:bg-red-500 hover:border-white border-red-500 btn-outline">
                 <FiTrash2 className="h-6 w-6 " />
               </button>
             </div>
@@ -117,7 +148,7 @@ export default function Home({ params: { formId } }) {
                         ></textarea>
                       ) : field?.type === "payment" ? (
                         <button className="btn btn-primary">
-                          Pay 0.0000 MATIC
+                          Pay {field?.amount} MATIC
                         </button>
                       ) : (
                         <input
@@ -235,6 +266,7 @@ export default function Home({ params: { formId } }) {
           </div>
         </div>
       </dialog>
+      <ToastContainer/>
     </>
   );
 }
