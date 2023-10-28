@@ -4,12 +4,18 @@ import { useEffect, useState, useContext } from "react";
 import { ethers, Contract } from "ethers";
 import Payable_abi from "../../../utils/abi.json";
 import { storeFiles } from "../../../utils/ipfsUpload";
+import { useAccount } from "wagmi";
+import { ConnectButton } from "@rainbow-me/rainbowkit";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-export default function Home({ params: { formId } }) {
+export default function Form({ params: { formId } }) {
   const [form, setForm] = useState();
   const [db, setDB] = useState();
   const [loadingFormData, setLoadingFormData] = useState(true);
   const [uploadedURL, setUploadedURL] = useState(null);
+
+  const { address } = useAccount();
 
   const initDB = async () => {
     setLoadingFormData(true);
@@ -39,30 +45,39 @@ export default function Home({ params: { formId } }) {
   };
 
   useEffect(() => {
-    updateContract();
-  }, []);
+    if (address) {
+      updateContract();
+    }
+  }, [])
 
-  const pay = (amount) => {
+  const pay = async (amount, fieldId) => {
+    if (!address) {
+      updateContract();
+      return;
+    }
+
     const options = { value: ethers.parseEther(amount?.toString()) };
     contract.register(form?.author, options).then((res) => {
       console.log(res);
+      answers[fieldId] = amount;
+      setAnswers({ ...answers });
+      toast.success("Payment successful!");
     });
   };
 
   const handleFileUpload = async (event) => {
     try {
       const files = event.target.files;
+      var fileURL;
       if (files.length > 0) {
-        const fileURL = await storeFiles(files);
+        fileURL = await storeFiles(files);
         setUploadedURL(fileURL);
       } else {
         console.error("No files selected.");
       }
 
-      console.log(uploadedURL);
-
-      answers[field?.id] = e.target.value;
-      setAnswers({ ...answers });
+      toast.success("File uploaded successfully!");
+      return fileURL;
     } catch (error) {
       console.error("Error uploading files:", error);
     }
@@ -81,13 +96,12 @@ export default function Home({ params: { formId } }) {
           <span className="loading loading-spinner loading-lg"></span>
         </div>
       ) : (
-        <div className="border-black w-full border-2 h-auto rounded-xl p-3 pl-8 mb-20 pb-20">
+        <div className="border-black w-full border-2 h-auto rounded-xl p-3 pl-8 mb-20 pb-10">
           <div className="row1 title">
             <div className="flex items-center gap-3">
               <span className="text-3xl font-bold ">{form?.title}</span>{" "}
             </div>
           </div>
-
           <div className="inputs">
             {form?.fields?.map((field, index) => {
               return (
@@ -119,13 +133,18 @@ export default function Home({ params: { formId } }) {
                         className="btn btn-primary"
                         onClick={() => {
                           console.log(field?.amount);
-                          pay(field?.amount);
+                          pay(field?.amount, field?.id);
                         }}
                       >
                         Pay {field?.amount} MATIC
                       </button>
                     ) : field?.type === "file" ? (
-                      <input type="file" multiple onChange={(e)=>handleFileUpload(e, field?.id)} />
+                      <input type="file" multiple onChange={async (event) => {
+                        const url = await handleFileUpload(event);
+                        console.log("URL: ", url);
+                        answers[field?.id] = url;
+                        setAnswers({ ...answers });
+                      }} />
                     ) : (
                       <input
                         className="w-full max-w-4xl input input-bordered"
@@ -141,9 +160,14 @@ export default function Home({ params: { formId } }) {
                 </div>
               );
             })}
+            <hr className="my-5" />
+            {address ? <button className="btn btn-primary">Submit form</button> : <div className="flex flex-col">
+              <p className="mb-5 font-semibold">Connect wallet to submit form</p>
+              <ConnectButton /></div>}
           </div>
         </div>
       )}
+      <ToastContainer />
     </main>
   );
 }

@@ -17,10 +17,9 @@ export function makeStorageClient() {
 }
 
 export async function storeFiles(files) {
-  console.log("uplaod started...");
+  console.log("upload started...");
   const client = makeStorageClient();
   const cid = await client.put(files);
-  console.log("stored files with cid:", cid);
   return `https://ipfs.io/ipfs/${cid}`;
 }
 
