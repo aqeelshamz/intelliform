@@ -19,7 +19,9 @@ export default function Home({ params: { formId } }) {
 
   const [db, setDB] = useState();
 
-  const temp = () => {};
+  const [responses, setResponses] = useState([]);
+
+  const temp = () => { };
 
   const initDB = async () => {
     setLoadingFormData(true);
@@ -28,6 +30,9 @@ export default function Home({ params: { formId } }) {
     });
     await db.init();
     setDB(db);
+    const responses = await db.cget("responses");
+    setResponses(responses);
+    console.log(responses);
     setForm((await db.get("forms", ["id", "==", formId]))[0]);
     console.log((await db.get("forms", ["id", "==", formId]))[0]);
     setLoadingFormData(false);
@@ -37,21 +42,13 @@ export default function Home({ params: { formId } }) {
     initDB();
   }, []);
 
-  const saveForm = async () => {
-    // console.log(await db.update(form, "forms"));
-    console.log(
-      await db.getIds(await db.get("forms", ["id"], ["id", "==", formId]))[0]
-    );
-  };
-
   return (
     <>
       <Navbar />
       <div className="flex justify-between tabs mt-3 sticky top-0 z-50 bg-white">
         <div>
-          <a className="tab tab-lg tab-lifted tab-active">Responses</a>
-
-          <a className="tab tab-lg tab-lifted ">Editor</a>
+          <Link href={"/editor/" + formId} className="tab tab-lg tab-lifted ">Editor</Link>
+          <a className="tab tab-lg tab-lifted tab-active">Responses ({responses.length})</a>
         </div>
         <p
           className="cursor-pointer underline text-blue-500"
@@ -78,11 +75,7 @@ export default function Home({ params: { formId } }) {
               <div className="border-black w-full border-b h-auto  p-3 pl-8 mb-10 pb-10">
                 <div className="row1 title">
                   <div className="">
-                    <span className="text-3xl font-bold ">{form?.title}</span>{" "}
-                  </div>
-
-                  <div className=" mt-3">
-                    <span className="text-xl">{form?.description}</span>
+                    <span className="text-3xl font-bold ">Responses for '{form?.title}'</span>{" "}
                   </div>
                 </div>
               </div>
@@ -91,19 +84,32 @@ export default function Home({ params: { formId } }) {
                 <table className="table table-lg table-pin-rows table-pin-cols">
                   <thead>
                     <tr>
-                      <th>{/* field names */}</th>
+                      <th>No.</th>
+                      {form?.fields?.map((field) => {
+                        return <th>{field?.title}</th>;
+                      })}
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <td>{/* table data */}</td>
-                    </tr>
+                    {
+                      responses?.map((response, index) => {
+                        return <tr>
+                          <td>{index + 1}</td>
+                          {Object.keys(response?.data?.answers)?.map((key) => {
+                            return <td>{response?.data?.answers[key].toString().includes("https://") ? <Link className="cursor-pointer underline text-blue-500" href={response?.data?.answers[key]} target="_blank">Download</Link> : (response?.data?.answers[key])}</td>
+                          })
+                          }
+                        </tr>
+                      })
+                    }
                   </tbody>
-                  <tfoot>
+                  {/* <tfoot>
                     <tr>
-                      <th>{/* field names */}</th>
+                      {form?.fields?.map((field) => {
+                        return <th>{field?.title}</th>;
+                      })}
                     </tr>
-                  </tfoot>
+                  </tfoot> */}
                 </table>
               </div>
             </>

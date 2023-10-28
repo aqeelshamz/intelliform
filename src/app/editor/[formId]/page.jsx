@@ -11,6 +11,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { MdOutlineShortText, MdOutlineNumbers, MdAttachMoney } from "react-icons/md";
 import { useEffect, useState } from "react";
 import WeaveDB from "weavedb-sdk";
+import Link from "next/link";
 
 export default function Home({ params: { formId } }) {
   const temp = () => {
@@ -82,7 +83,7 @@ export default function Home({ params: { formId } }) {
       <div className="flex justify-between tabs mt-3 sticky top-0 z-50 bg-white">
         <div>
           <a className="tab tab-lg tab-lifted tab-active">Editor</a>
-          <a className="tab tab-lg tab-lifted Responses (11)">Responses (11)</a>
+          <Link href={"/responses/" + formId} className="tab tab-lg tab-lifted">Responses</Link>
         </div>
         <p
           className="cursor-pointer underline text-blue-500"
@@ -127,7 +128,7 @@ export default function Home({ params: { formId } }) {
                     </div>
                     <div className="flex items-center gap-3 mt-3">
                       {field?.type === "multiplechoice" ? (
-                        <select className="w-full max-w-4xl select select-bordered" onChange={(e)=>{
+                        <select className="w-full max-w-4xl select select-bordered" onChange={(e) => {
 
                         }}>
                           {field?.choices?.map((option, id) => {
