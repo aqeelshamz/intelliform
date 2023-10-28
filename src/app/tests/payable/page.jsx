@@ -3,7 +3,6 @@ import { ethers, Contract } from "ethers";
 import { useEffect, useState } from "react";
 import Payable_abi from "../../../utils/abi.json"
 import Navbar from "../../components/Navbar";
-import { pay } from "../../../utils/pay";
 
 export default function Test() {
   const [contract, setContract] = useState();
