@@ -11,7 +11,7 @@ export default function Test() {
     const provider = new ethers.BrowserProvider(window.ethereum);
     const signer = await provider.getSigner();
     const contract = new Contract("0xB28cbafcb69d18ad60Efe4E6183f02800C2e33FB", Payable_abi, signer);
-    setContract(contract);
+    setContract(contract);na
     console.log("Contract loaded: ", contract);
   }
 
