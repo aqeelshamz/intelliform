@@ -64,7 +64,10 @@ export default function Home() {
                 responses: 0
             };
 
-            console.log(await db.add(formData, "forms"));
+            const tx = await db.add(formData, "forms");
+            console.log(tx);
+            console.log(await db.getIds(tx));
+            // await db.update({ id: docId }, "forms", docId);
 
             console.log("Saved to DB");
 

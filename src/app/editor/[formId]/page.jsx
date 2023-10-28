@@ -14,11 +14,14 @@ export default function Home({ params: { formId } }) {
 
   const [loadingFormData, setLoadingFormData] = useState(true);
 
-  const db = new WeaveDB({ contractTxId: "oj9GzEHQDlK_VQfvGBKFXvyq_zDHdr5m8N0PAU8GysM" });
+  const [db, setDB] = useState();
 
+  
   const initDB = async () => {
+    const db = new WeaveDB({ contractTxId: "oj9GzEHQDlK_VQfvGBKFXvyq_zDHdr5m8N0PAU8GysM" });
     setLoadingFormData(true);
     await db.init();
+    setDB(db);
     setForm((await db.get("forms", ["id", "==", formId]))[0]);
     console.log((await db.get("forms", ["id", "==", formId]))[0]);
     setLoadingFormData(false);
@@ -28,6 +31,12 @@ export default function Home({ params: { formId } }) {
     initDB();
   }, [])
 
+
+  const saveForm = async () => {
+    // console.log(await db.update(form, "forms"));
+    console.log(await db.getIds(await db.get("forms", ["id"], [ "id", "==", formId ]))[0])
+  }
+
   return (
     <>
       <Navbar />
@@ -36,8 +45,8 @@ export default function Home({ params: { formId } }) {
           <a className="tab tab-lg tab-lifted tab-active">Editor</a>
           <a className="tab tab-lg tab-lifted Responses (11)">Responses (11)</a>
         </div>
-        <p className="text-blue-500">https://intelliform.io/forms/{formId}</p>
-        <button className="mr-10 btn btn-primary">Save</button>
+        <p className="cursor-pointer underline text-blue-500" onClick={()=>window.open("http://localhost:3000/forms/" + formId)}>https://intelliform.io/forms/{formId}</p>
+        <button className="mr-10 btn btn-primary" onClick={saveForm}>Save</button>
       </div>
       <main className="container mx-auto relative mt-6 ">
         {loadingFormData ? <div>
@@ -83,8 +92,8 @@ export default function Home({ params: { formId } }) {
                           })
                         }
                       </select> : field?.type === "longtext" ?
-                        <textarea className="w-full max-w-4xl textarea textarea-bordered" placeholder={field?.title}></textarea>
-                        : <input className="w-full max-w-4xl input input-bordered" type={field?.type} placeholder={field?.title} />
+                        <textarea disabled className="w-full max-w-4xl textarea textarea-bordered" placeholder={field?.title}></textarea>
+                        : field?.type === "payment" ? <button className="btn btn-primary">Pay 0.0000 MATIC</button> : <input disabled className="w-full max-w-4xl input input-bordered" type={field?.type} placeholder={field?.title} />
                     }
                     <button className="btn btn-sm h-[45px] w-[45px] btn-square btn-outline" onClick={() => {
                       //remove field from form
