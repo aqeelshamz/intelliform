@@ -1,10 +1,18 @@
-const client = new LitJsSdk.LitNodeClient()
+// Import LitJsSdk as needed
+import LitJsSdk from "lit-js-sdk";
+
+const client = new LitJsSdk.LitNodeClient();
 
 class Lit {
-  private litNodeClient
-  async connect() {
-    await client.connect()
-    this.litNodeClient = client
-  }
+	constructor() {
+		this.litNodeClient = null;
+	}
+
+	async connect() {
+		await client.connect();
+		this.litNodeClient = client;
+	}
 }
-export default new Lit()
+const litInstance = new Lit();
+
+export default litInstance;

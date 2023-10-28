@@ -1,6 +1,6 @@
 "use client";
-import { useEffect } from "react";
-import lit from "./lit";
+import { useEffect, useState } from "react";
+import Lit from "./lit";
 
 import * as LitJsSdk from "@lit-protocol/lit-node-client";
 
@@ -8,6 +8,10 @@ const client = new LitJsSdk.LitNodeClient();
 const chain = "polygonMumbai";
 
 export default function Test() {
+	const [message, setMessage] = useState("");
+	const [encString, setEncString] = useState("");
+	const [encSymmetricKey, setEncSymmetricKey] = useState("");
+
 	const encrypt = async (message) => {
 		if (!this.litNodeClient) {
 			await this.connect();
@@ -62,7 +66,7 @@ export default function Test() {
 		{
 			contractAddress: "",
 			standardContractType: "",
-			chain: "ethereum",
+			chain: "polygonMumbai",
 			method: "eth_getBalance",
 			parameters: [":userAddress", "latest"],
 			returnValueTest: {
@@ -72,9 +76,28 @@ export default function Test() {
 		},
 	];
 
+	const handleDecryptClick = () => {
+		const decryptedString = decrypt(encString, encSymmetricKey);
+		console.log(`encryptedString: ${encryptedString}  encryptedSymmetricKey: ${encryptedSymmetricKey}`);
+	};
+
 	return (
 		<div className="m-5">
 			<h1>Lit</h1>
+			<div>
+				<input type="text" value={message} onChange={(e) => setMessage(e.target.value)} />
+				<button className="btn btn-primary" onClick={handleEncryptClick}>
+					Encrypt
+				</button>
+			</div>
+			<div>
+				<input type="text" value={message} onChange={(e) => setEncString(e.target.value)} />
+				<input type="text" value={message} onChange={(e) => setEncSymmetricKey(e.target.value)} />
+
+				<button className="btn btn-primary" onClick={handleDecryptClick}>
+					Decrypt
+				</button>
+			</div>
 		</div>
 	);
 }
