@@ -5,14 +5,12 @@ import { TbPhone } from "react-icons/tb";
 import { BsTextareaResize, BsCalendar2Date } from "react-icons/bs";
 import { HiOutlineMail } from "react-icons/hi";
 import { BiSelectMultiple } from "react-icons/bi";
-
 import {
     MdOutlineShortText,
     MdOutlineNumbers,
     MdAttachMoney,
 } from "react-icons/md";
 import Navbar from "../components/Navbar";
-
 import { PiMagicWandFill } from "react-icons/pi";
 import { useEffect, useState } from "react";
 import OpenAI from "openai";
@@ -118,6 +116,10 @@ export default function Home() {
     useEffect(() => {
         console.log(forms);
     }, [forms]);
+
+    useEffect(() => {
+        initDB();
+    }, [address]);
 
     return (
         <>
