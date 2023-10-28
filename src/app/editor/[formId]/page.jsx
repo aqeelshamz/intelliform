@@ -47,13 +47,14 @@ export default function Home({ params: { formId } }) {
         <div>
           <a className="tab tab-lg tab-lifted tab-active">Editor</a>
           <a className="tab tab-lg tab-lifted Responses (11)">Responses (11)</a>
-          <Link
-            className="cursor-pointer underline text-blue-500"
-            href={`/forms/${formId}`}
-          >
-            https://intelliform.io/forms/{formId}
-          </Link>
         </div>
+        <Link
+          className="cursor-pointer underline text-blue-500"
+          href={`/forms/${formId}`}
+          target="_blank"
+        >
+          https://intelliform.io/forms/{formId}
+        </Link>
         <button className="mr-10 btn btn-primary" onClick={saveForm}>
           Save
         </button>
