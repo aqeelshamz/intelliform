@@ -14,6 +14,7 @@ import {
 } from "react-icons/md";
 import { useEffect, useState } from "react";
 import WeaveDB from "weavedb-sdk";
+import Link from "next/link";
 
 export default function Home({ params: { formId } }) {
   // const temp = () => {
@@ -94,63 +95,65 @@ export default function Home({ params: { formId } }) {
             <div className="inputs">
               {form?.fields?.map((field, index) => {
                 return (
-                  <>
-                    <div className="inputrow">
-                      <div className="flex items-center gap-3 mt-5">
-                        <label className="text-xl font-semibold">
-                          {field?.title}
-                        </label>
-                        <FiEdit />
-                      </div>
-                      <div className="flex items-center gap-3 mt-3">
-                        {field?.type === "multiplechoice" ? (
-                          <select className="w-full max-w-4xl select select-bordered">
-                            {field?.choices?.map((option, i) => {
-                              return <option key={i}>{option}</option>;
-                            })}
-                          </select>
-                        ) : field?.type === "longtext" ? (
-                          <textarea
-                            className="w-full max-w-4xl textarea textarea-bordered"
-                            placeholder={field?.title}
-                          ></textarea>
-                        ) : (
-                          <input
-                            className="w-full max-w-4xl input input-bordered"
-                            type={field?.type}
-                            placeholder={field?.title}
-                          />
-                        )}
-                        <button className="btn btn-sm h-[45px] w-[45px] btn-square btn-outline">
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            className="h-6 w-6"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth="2"
-                              d="M6 18L18 6M6 6l12 12"
-                            />
-                          </svg>
-                        </button>
-                      </div>
+                  <div className="inputrow" key={index}>
+                    <div className="flex items-center gap-3 mt-5">
+                      <label className="text-xl font-semibold">
+                        {field?.title}
+                      </label>
+                      <FiEdit />
                     </div>
-                  </>
+                    <div className="flex items-center gap-3 mt-3">
+                      {field?.type === "multiplechoice" ? (
+                        <select className="w-full max-w-4xl select select-bordered">
+                          {field?.choices?.map((option, id) => {
+                            return <option key={id}>{option}</option>;
+                          })}
+                        </select>
+                      ) : field?.type === "longtext" ? (
+                        <textarea
+                          disabled
+                          className="w-full max-w-4xl textarea textarea-bordered"
+                          placeholder={field?.title}
+                        ></textarea>
+                      ) : field?.type === "payment" ? (
+                        <button className="btn btn-primary">
+                          Pay 0.0000 MATIC
+                        </button>
+                      ) : (
+                        <input
+                          disabled
+                          className="w-full max-w-4xl input input-bordered"
+                          type={field?.type}
+                          placeholder={field?.title}
+                        />
+                      )}
+                      <button
+                        className="btn btn-sm h-[45px] w-[45px] btn-square btn-outline"
+                        onClick={() => {
+                          //remove field from form
+                          form.fields.splice(index, 1);
+                          setForm({ ...form });
+                        }}
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="h-6 w-6"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="2"
+                            d="M6 18L18 6M6 6l12 12"
+                          />
+                        </svg>
+                      </button>
+                    </div>
+                  </div>
                 );
               })}
-
-              <button
-                className="btn mt-10 mb-5 btn-xs sm:btn-sm md:btn-md lg:btn-lg bg-black hover:bg-gray-700  text-white w-96 lg:w-[896px]"
-                onClick={() =>
-                  document.getElementById("my_modal_1").showModal()
-                }
-              >
-                Add Content
-              </button>
             </div>
           </div>
         )}

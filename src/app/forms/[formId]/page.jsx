@@ -1,6 +1,8 @@
 "use client";
 import WeaveDB from "weavedb-sdk";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
+import { ethers, Contract } from "ethers";
+import Payable_abi from "../../../utils/abi.json"
 
 export default function Home({ params: { formId } }) {
   const [form, setForm] = useState();
@@ -22,6 +24,28 @@ export default function Home({ params: { formId } }) {
   useEffect(() => {
     initDB();
   }, []);
+
+  //Payment
+  const [contract, setContract] = useState();
+
+  const updateContract = async () => {
+    const provider = new ethers.BrowserProvider(window.ethereum);
+    const signer = await provider.getSigner();
+    const contract = new Contract("0xB28cbafcb69d18ad60Efe4E6183f02800C2e33FB", Payable_abi, signer);
+    setContract(contract);
+    console.log("Contract loaded: ", contract);
+  }
+
+  useEffect(() => {
+    updateContract();
+  }, []);
+
+  const pay = (amount) => {
+    const options = { value: ethers.parseEther(amount?.toString()) };
+    contract.register(form?.author, options).then((res) => {
+      console.log(res);
+    });
+  }
 
   return (
     <main className="container mx-auto relative mt-6 ">
@@ -59,9 +83,15 @@ export default function Home({ params: { formId } }) {
                         placeholder={field?.title}
                       ></textarea>
                     ) : field?.type === "payment" ? (
-                      <div>
-                        <p>Payment</p>
-                      </div>
+                      <button
+                        className="btn btn-primary"
+                        onClick={() => {
+                          console.log(field?.amount);
+                          pay(field?.amount);
+                        }}
+                      >
+                        Register
+                      </button>
                     ) : (
                       <input
                         className="w-full max-w-4xl input input-bordered"
