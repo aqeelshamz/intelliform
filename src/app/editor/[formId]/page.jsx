@@ -1,6 +1,17 @@
 "use client";
 import Navbar from "../../components/Navbar";
 import { FiEdit, FiTrash2 } from "react-icons/fi";
+import { FaRegFile } from "react-icons/fa";
+import { TbPhone } from "react-icons/tb";
+import { BsTextareaResize, BsCalendar2Date } from "react-icons/bs";
+import { HiOutlineMail } from "react-icons/hi";
+import { BiSelectMultiple } from "react-icons/bi";
+
+import {
+  MdOutlineShortText,
+  MdOutlineNumbers,
+  MdAttachMoney,
+} from "react-icons/md";
 import { useEffect, useState } from "react";
 import WeaveDB from "weavedb-sdk";
 import Link from "next/link";
@@ -18,10 +29,10 @@ export default function Home({ params: { formId } }) {
   const [db, setDB] = useState();
 
   const initDB = async () => {
+    setLoadingFormData(true);
     const db = new WeaveDB({
       contractTxId: "oj9GzEHQDlK_VQfvGBKFXvyq_zDHdr5m8N0PAU8GysM",
     });
-    setLoadingFormData(true);
     await db.init();
     setDB(db);
     setForm((await db.get("forms", ["id", "==", formId]))[0]);
@@ -48,13 +59,12 @@ export default function Home({ params: { formId } }) {
           <a className="tab tab-lg tab-lifted tab-active">Editor</a>
           <a className="tab tab-lg tab-lifted Responses (11)">Responses (11)</a>
         </div>
-        <Link
+        <p
           className="cursor-pointer underline text-blue-500"
-          href={`/forms/${formId}`}
-          target="_blank"
+          onClick={() => window.open("http://localhost:3000/forms/" + formId)}
         >
           https://intelliform.io/forms/{formId}
-        </Link>
+        </p>
         <button className="mr-10 btn btn-primary" onClick={saveForm}>
           Save
         </button>
@@ -148,6 +158,83 @@ export default function Home({ params: { formId } }) {
           </div>
         )}
       </main>
+      {/* Modals */}
+      {/* modal 1 */}
+      <dialog id="my_modal_1" className="modal">
+        <div className="modal-box max-w-[950px] max-h-[450px]">
+          <h3 className="font-bold text-2xl">Choose form input</h3>
+          <div className="flex flex-wrap mt-6 gap-5 text-2xl max-w-full overflow-hidden">
+            <button
+              className="flex btn btn-outline  w-[271px] h-[69px] "
+              onClick={temp}
+            >
+              <MdOutlineShortText size={28} />
+              Text
+            </button>
+            <button
+              className="flex btn btn-outline  w-[271px] h-[69px] "
+              onClick={temp}
+            >
+              <BsTextareaResize size={28} />
+              Long text
+            </button>
+            <button
+              className="flex btn btn-outline  w-[271px] h-[69px] "
+              onClick={temp}
+            >
+              <HiOutlineMail size={28} />
+              Email
+            </button>
+            <button
+              className="flex btn btn-outline  w-[271px] h-[69px] "
+              onClick={temp}
+            >
+              <BiSelectMultiple size={28} />
+              Multiple Choice
+            </button>
+            <button
+              className="flex btn btn-outline  w-[271px] h-[69px] "
+              onClick={temp}
+            >
+              <MdOutlineNumbers size={28} />
+              Number
+            </button>
+            <button
+              className="flex btn btn-outline  w-[271px] h-[69px] "
+              onClick={temp}
+            >
+              <BsCalendar2Date size={25} />
+              Date
+            </button>
+            <button
+              className="flex btn btn-outline  w-[271px] h-[69px] "
+              onClick={temp}
+            >
+              <FaRegFile size={25} />
+              File
+            </button>
+            <button
+              className="flex btn btn-outline  w-[271px] h-[69px] "
+              onClick={temp}
+            >
+              <TbPhone size={24} />
+              Phone
+            </button>
+            <button
+              className="flex btn btn-outline  w-[271px] h-[69px] "
+              onClick={temp}
+            >
+              <MdAttachMoney size={27} className="-mt-1" />
+              Cash
+            </button>
+          </div>
+          <div className="modal-action">
+            <form method="dialog">
+              <button className="btn">Close</button>
+            </form>
+          </div>
+        </div>
+      </dialog>
     </>
   );
 }
