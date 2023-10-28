@@ -22,9 +22,6 @@ export default function Home({ params: { formId } }) {
     setForm((await db.get("forms", ["id", "==", formId]))[0]);
     console.log((await db.get("forms", ["id", "==", formId]))[0]);
     setLoadingFormData(false);
-    db.getIds("forms").then((ids) => {
-      console.log(ids);
-    })
   }
 
   useEffect(() => {
