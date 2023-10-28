@@ -1,17 +1,8 @@
 "use client";
 import Navbar from "../../components/Navbar";
-import { FiEdit, FiTrash2 } from "react-icons/fi";
-import { FaRegFile } from "react-icons/fa";
-import { TbPhone } from "react-icons/tb";
-import { BsTextareaResize, BsCalendar2Date } from "react-icons/bs";
-import { HiOutlineMail } from "react-icons/hi";
-import { BiSelectMultiple } from "react-icons/bi";
+import { PiMicrosoftExcelLogoFill } from "react-icons/pi";
+import { FaRegFilePdf } from "react-icons/fa";
 
-import {
-  MdOutlineShortText,
-  MdOutlineNumbers,
-  MdAttachMoney,
-} from "react-icons/md";
 import { useEffect, useState } from "react";
 import WeaveDB from "weavedb-sdk";
 import Link from "next/link";
@@ -68,8 +59,11 @@ export default function Home({ params: { formId } }) {
         >
           https://intelliform.io/forms/{formId}
         </p>
-        <button className="mr-10 btn btn-primary" onClick={saveForm}>
-          Save
+        <button
+          className="mr-10 btn btn-primary"
+          onClick={() => document.getElementById("my_modal_1").showModal()}
+        >
+          Export
         </button>
       </div>
 
@@ -81,171 +75,63 @@ export default function Home({ params: { formId } }) {
             </div>
           ) : (
             <>
-              <div className="border-black w-full border-2 h-auto rounded-xl p-3 pl-8 mb-20 pb-20">
-                <div className="row0 flex justify-end">
-                  <button className="btn  text-red-500 hover:bg-red-500 hover:border-white border-red-500 btn-outline">
-                    <FiTrash2 className="h-6 w-6" />
-                  </button>
-                </div>
+              <div className="border-black w-full border-b h-auto  p-3 pl-8 mb-10 pb-10">
                 <div className="row1 title">
-                  <div className="flex items-center gap-3">
+                  <div className="">
                     <span className="text-3xl font-bold ">{form?.title}</span>{" "}
-                    <FiEdit />
                   </div>
 
-                  <div className="flex items-center gap-3 mt-3">
-                    <span className="text-xl">{form?.description}</span>{" "}
-                    <FiEdit />
+                  <div className=" mt-3">
+                    <span className="text-xl">{form?.description}</span>
                   </div>
                 </div>
-
-                <button
-                  className="btn mt-10 mb-5 btn-xs sm:btn-sm md:btn-md lg:btn-lg bg-black hover:bg-gray-700  text-white w-96 lg:w-[896px]"
-                  onClick={() =>
-                    document.getElementById("my_modal_1").showModal()
-                  }
-                >
-                  Add Content
-                </button>
               </div>
 
-              <div className="inputs">
-                {form?.fields?.map((field, index) => {
-                  return (
-                    <div className="inputrow" key={index}>
-                      <div className="flex items-center gap-3 mt-5">
-                        <label className="text-xl font-semibold">
-                          {field?.title}
-                        </label>{" "}
-                        <FiEdit />
-                      </div>
-                      <div className="flex items-center gap-3 mt-3">
-                        {field?.type === "multiplechoice" ? (
-                          <select className="w-full max-w-4xl select select-bordered">
-                            {field?.choices?.map((option, id) => {
-                              return <option key={id}>{option}</option>;
-                            })}
-                          </select>
-                        ) : field?.type === "longtext" ? (
-                          <textarea
-                            disabled
-                            className="w-full max-w-4xl textarea textarea-bordered"
-                            placeholder={field?.title}
-                          ></textarea>
-                        ) : field?.type === "payment" ? (
-                          <button className="btn btn-primary">
-                            Pay 0.0000 MATIC
-                          </button>
-                        ) : (
-                          <input
-                            disabled
-                            className="w-full max-w-4xl input input-bordered"
-                            type={field?.type}
-                            placeholder={field?.title}
-                          />
-                        )}
-                        <button
-                          className="btn btn-sm h-[45px] w-[45px] btn-square btn-outline"
-                          onClick={() => {
-                            // Remove field from form
-                            form.fields.splice(index, 1);
-                            // Note: This direct manipulation of the form might not be the best practice.
-                            // You should use state to manage the form and updates properly.
-                          }}
-                        >
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            className="h-6 w-6"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth="2"
-                              d="M6 18L18 6M6 6l12 12"
-                            />
-                          </svg>
-                        </button>
-                      </div>
-                    </div>
-                  );
-                })}
+              <div className="overflow-x-auto">
+                <table className="table table-lg table-pin-rows table-pin-cols">
+                  <thead>
+                    <tr>
+                      <th>{/* field names */}</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>{/* table data */}</td>
+                    </tr>
+                  </tbody>
+                  <tfoot>
+                    <tr>
+                      <th>{/* field names */}</th>
+                    </tr>
+                  </tfoot>
+                </table>
               </div>
             </>
           )}
         </main>
       </>
 
-      {/* Modals */}
       {/* modal 1 */}
       <dialog id="my_modal_1" className="modal">
-        <div className="modal-box max-w-[950px] max-h-[450px]">
-          <h3 className="font-bold text-2xl">Choose form input</h3>
-          <div className="flex flex-wrap mt-6 gap-5 text-2xl max-w-full overflow-hidden">
+        <div className="modal-box max-w-xl">
+          <h3 className="font-bold text-2xl">Create form</h3>
+          <div className="flex mt-6 max-w-fulloverflow-hidden">
             <button
-              className="flex btn btn-outline  w-[271px] h-[69px] "
+              className="flex flex-col btn min-h-[200px] w-[48%]  text-green-500 hover:bg-green-500 hover:border-white border-green-500 btn-outline"
               onClick={temp}
             >
-              <MdOutlineShortText size={28} />
-              Text
+              <PiMicrosoftExcelLogoFill className="h-20 w-20" />
+              Excel
             </button>
+            <div className="w-[4%]"></div>
             <button
-              className="flex btn btn-outline  w-[271px] h-[69px] "
-              onClick={temp}
+              className="flex flex-col btn min-h-[200px] w-[48%]  text-red-500 hover:bg-red-500 hover:border-white border-red-500 btn-outline"
+              onClick={() => {
+                document.getElementById("my_modal_3").showModal();
+              }}
             >
-              <BsTextareaResize size={28} />
-              Long text
-            </button>
-            <button
-              className="flex btn btn-outline  w-[271px] h-[69px] "
-              onClick={temp}
-            >
-              <HiOutlineMail size={28} />
-              Email
-            </button>
-            <button
-              className="flex btn btn-outline  w-[271px] h-[69px] "
-              onClick={temp}
-            >
-              <BiSelectMultiple size={28} />
-              Multiple Choice
-            </button>
-            <button
-              className="flex btn btn-outline  w-[271px] h-[69px] "
-              onClick={temp}
-            >
-              <MdOutlineNumbers size={28} />
-              Number
-            </button>
-            <button
-              className="flex btn btn-outline  w-[271px] h-[69px] "
-              onClick={temp}
-            >
-              <BsCalendar2Date size={25} />
-              Date
-            </button>
-            <button
-              className="flex btn btn-outline  w-[271px] h-[69px] "
-              onClick={temp}
-            >
-              <FaRegFile size={25} />
-              File
-            </button>
-            <button
-              className="flex btn btn-outline  w-[271px] h-[69px] "
-              onClick={temp}
-            >
-              <TbPhone size={24} />
-              Phone
-            </button>
-            <button
-              className="flex btn btn-outline  w-[271px] h-[69px] "
-              onClick={temp}
-            >
-              <MdAttachMoney size={27} className="-mt-1" />
-              Cash
+              <FaRegFilePdf className="h-20 w-20" />
+              PDF
             </button>
           </div>
           <div className="modal-action">
