@@ -22,6 +22,7 @@ import WeaveDB from "weavedb-sdk";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useAccount } from "wagmi";
+import { ConnectButton } from "@rainbow-me/rainbowkit";
 
 export default function Home() {
     const [prompt, setPrompt] = useState("");
@@ -41,13 +42,21 @@ export default function Home() {
 
     const { address } = useAccount();
 
+    const [userNotLoggedIn, setUserNotLoggedIn] = useState(false);
+
     const initDB = async () => {
         setLoadingForms(true);
         const db = new WeaveDB({ contractTxId: "oj9GzEHQDlK_VQfvGBKFXvyq_zDHdr5m8N0PAU8GysM" });
         await db.init();
         console.log("Address is: " + address);
 
-        setForms(await db.cget("forms", ["author"], ["author", "==", "0x7adef31621de305ce78c3b10a1402aff960bdbff"]));
+        if (address) {
+            setForms(await db.cget("forms", ["author"], ["author", "==", address.toLowerCase()]));
+            setUserNotLoggedIn(false);
+        }
+        else {
+            setUserNotLoggedIn(true);
+        }
         setDB(db);
         setLoadingForms(false);
     }
@@ -113,14 +122,19 @@ export default function Home() {
     return (
         <>
             <Navbar />
-            <main className="container mx-auto">
-                <button
+            <main className="container mx-auto pt-5">
+                {loadingForms ? "" : userNotLoggedIn ? <div className="flex flex-col">
+                    <p className="text-xl my-4 font-semibold mb-5">
+                        Connect your wallet to start creating forms.
+                    </p>
+                    <ConnectButton />
+                </div> : <button
                     className="btn mt-4 mb-5 btn-xs sm:btn-sm md:btn-md lg:btn-lg hover:bg-black hover:text-white"
                     onClick={() => document.getElementById("my_modal_1").showModal()}
                 >
                     + New Form
-                </button>
-                {loadingForms ? (
+                </button>}
+                {userNotLoggedIn ? "" : loadingForms ? (
                     <div>
                         <span className="loading loading-spinner loading-lg"></span>
                     </div>
@@ -162,7 +176,10 @@ export default function Home() {
                                                     </button>
                                                 </td>
                                                 <td>
-                                                    <button className="btn text-red-500 hover:bg-red-500 hover:border-white border-red-500 btn-outline">
+                                                    <button className="btn text-red-500 hover:bg-red-500 hover:border-white border-red-500 btn-outline" onClick={async () => {
+                                                        console.log(await db.delete("forms", form?.id));
+                                                        toast.success('Form deleted successfully!');
+                                                    }}>
                                                         <FiTrash2 className="h-6 w-6" />
                                                     </button>
                                                 </td>
