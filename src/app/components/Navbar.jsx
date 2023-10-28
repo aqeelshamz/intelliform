@@ -1,3 +1,4 @@
+"use client";
 import "@rainbow-me/rainbowkit/styles.css";
 import {
   getDefaultWallets,
@@ -8,6 +9,7 @@ import { configureChains, createConfig, WagmiConfig } from "wagmi";
 import { polygonMumbai } from "wagmi/chains";
 import { alchemyProvider } from "wagmi/providers/alchemy";
 import { publicProvider } from "wagmi/providers/public";
+import Link from "next/link";
 
 function Navbar() {
   const { chains, publicClient } = configureChains(
@@ -15,7 +17,7 @@ function Navbar() {
     [alchemyProvider({ apiKey: process.env.ALCHEMY_ID }), publicProvider()]
   );
   const { connectors } = getDefaultWallets({
-    appName: "My RainbowKit App",
+    appName: "intelliform",
     projectId: "a938bee08643184fb038b8deec30437f",
     chains,
   });
@@ -29,7 +31,7 @@ function Navbar() {
     <WagmiConfig config={wagmiConfig} className="sticky top-0 z-50">
       <RainbowKitProvider chains={chains}>
         <div className="navbar bg-base-100 flex justify-between border-b sticky top-30 z-54">
-          <a className="btn btn-ghost normal-case text-xl">IntelliForm</a>
+          <Link href={"/home"} className="btn btn-ghost normal-case text-xl">IntelliForm</Link>
           <div className="m-2">
             <ConnectButton />
           </div>
