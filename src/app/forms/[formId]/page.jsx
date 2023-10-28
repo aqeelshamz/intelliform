@@ -1,7 +1,7 @@
 "use client";
 import WeaveDB from "weavedb-sdk";
 import { useEffect, useState, useContext } from "react";
-import EthersContext from "../../../Context/EthersContext.js";
+import { EthersContext } from "../../../Context/EthersContext";
 
 export default function Home({ params: { formId } }) {
   const [form, setForm] = useState();

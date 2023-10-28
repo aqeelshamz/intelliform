@@ -1,3 +1,4 @@
+"use client";
 import { createContext, useState, useEffect } from "react";
 import Payable_abi from "../utils/abi.json";
 import { ethers } from "ethers";
@@ -6,7 +7,7 @@ export const EthersContext = createContext(null);
 const { ethereum } = window;
 if (!ethereum) alert("Please install MetaMask.");
 
-export default function Ethers({ children }) {
+export default function Ethers({ children }) {  
   const contractAddress = "0xB28cbafcb69d18ad60Efe4E6183f02800C2e33FB";
   const provider = new ethers.BrowserProvider(window.ethereum);
   const signer = provider.getSigner();
