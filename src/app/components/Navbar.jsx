@@ -34,7 +34,7 @@ function Navbar() {
 		// console.log(err);
 	}
 
-	const { addChain } = useMetaMask();
+	// const { addChain } = useMetaMask();
 
 	const mumbaiChainNetworkParams = {
 		chainId: "0x13881",
@@ -48,39 +48,39 @@ function Navbar() {
 		blockExplorerUrls: ["https://mumbai.polygonscan.com/"],
 	};
 
-	addChain(mumbaiChainNetworkParams);
+	// addChain(mumbaiChainNetworkParams);
 
 	useEffect(() => {}, []);
 
 	return (
-		// <WagmiConfig config={wagmiConfig} className="sticky top-0 z-50">
-		//   <RainbowKitProvider chains={chains}>
-		//     <div className="navbar bg-base-100 flex justify-between border-b sticky top-30 z-54">
-		//       <Link href={"/home"} className="btn btn-ghost normal-case text-xl">IntelliForm</Link>
-		//       <div className="m-2">
-		//         <ConnectButton />
-		//       </div>
-		//     </div>
-		//   </RainbowKitProvider>
-		// </WagmiConfig>
+		<WagmiConfig config={wagmiConfig} className="sticky top-0 z-50">
+		  <RainbowKitProvider chains={chains}>
+		    <div className="navbar bg-base-100 flex justify-between border-b sticky top-30 z-54">
+		      <Link href={"/home"} className="btn btn-ghost normal-case text-xl">IntelliForm</Link>
+		      <div className="m-2">
+		        <ConnectButton />
+		      </div>
+		    </div>
+		  </RainbowKitProvider>
+		</WagmiConfig>
 
-		<MetaMaskProvider
-			sdkOptions={{
-				dappMetadata: {
-					name: "Demo UI React App",
-				},
-				defaultReadOnlyChainId: "0x13881",
-			}}
-		>
-			<div className="navbar bg-base-100 flex justify-between border-b sticky top-30 z-54">
-				<Link href={"/home"} className="btn btn-ghost normal-case text-xl">
-					IntelliForm
-				</Link>
-				<div className="m-2">
-					<MetaMaskButton theme={"light"} color="white"></MetaMaskButton>
-				</div>
-			</div>
-		</MetaMaskProvider>
+		// <MetaMaskProvider
+		// 	sdkOptions={{
+		// 		dappMetadata: {
+		// 			name: "Demo UI React App",
+		// 		},
+		// 		defaultReadOnlyChainId: "0x13881",
+		// 	}}
+		// >
+		// 	<div className="navbar bg-base-100 flex justify-between border-b sticky top-30 z-54">
+		// 		<Link href={"/home"} className="btn btn-ghost normal-case text-xl">
+		// 			IntelliForm
+		// 		</Link>
+		// 		<div className="m-2">
+		// 			<MetaMaskButton theme={"light"} color="white"></MetaMaskButton>
+		// 		</div>
+		// 	</div>
+		// </MetaMaskProvider>
 	);
 }
 
