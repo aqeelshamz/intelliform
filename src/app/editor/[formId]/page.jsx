@@ -35,6 +35,7 @@ export default function Home({ params: { formId } }) {
       <div className="tabs mt-3 sticky top-0 z-50 bg-white">
         <a className="tab tab-lg tab-lifted tab-active">Editor</a>
         <a className="tab tab-lg tab-lifted Responses (11)">Responses (11)</a>
+        <p className="text-blue-500">https://intelliform.io/forms/{formId}</p>
       </div>
       <main className="container mx-auto relative mt-6 ">
         {loadingFormData ? <div>
