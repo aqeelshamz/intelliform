@@ -9,6 +9,7 @@ import { v4 as uuidv4 } from 'uuid';
 import WeaveDB from "weavedb-sdk";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useAccount } from "wagmi";
 
 export default function Home() {
     const [prompt, setPrompt] = useState("");
@@ -26,11 +27,15 @@ export default function Home() {
 
     const [loadingForms, setLoadingForms] = useState(true);
 
+    const { address } = useAccount();
+
     const initDB = async () => {
         setLoadingForms(true);
         const db = new WeaveDB({ contractTxId: "oj9GzEHQDlK_VQfvGBKFXvyq_zDHdr5m8N0PAU8GysM" });
         await db.init();
-        setForms(await db.cget("forms"));
+        console.log("Address is: " + address);
+
+        setForms(await db.cget("forms", ["author"], ["author", "==", "0x7adef31621de305ce78c3b10a1402aff960bdbff"]));
         setDB(db);
         setLoadingForms(false);
     }

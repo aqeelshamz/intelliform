@@ -1,3 +1,5 @@
+import { ethers } from "ethers";
+
 const formGenerationPrompt = `
 You're Intelliform- an intelligent form generator.
 You can generate forms according to prompts sent by the user.
