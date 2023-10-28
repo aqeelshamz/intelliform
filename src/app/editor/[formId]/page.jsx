@@ -8,27 +8,37 @@ import { BiLinkExternal } from "react-icons/bi";
 
 
 export default function Home({ params: { formId } }) {
-  const temp = () => {
-    document.getElementById("my_modal_2").showModal();
-    document.getElementById("my_modal_1").close();
-  };
+  // const temp = () => {
+  //   document.getElementById("my_modal_2").showModal();
+  //   document.getElementById("my_modal_1").close();
+  // };
 
-  const [db, setDB] = useState();
   const [form, setForm] = useState();
 
   const [loadingFormData, setLoadingFormData] = useState(true);
 
+  const db = new WeaveDB({ contractTxId: "oj9GzEHQDlK_VQfvGBKFXvyq_zDHdr5m8N0PAU8GysM" });
+
   const initDB = async () => {
     setLoadingFormData(true);
+<<<<<<< HEAD
     const db = new WeaveDB({
       contractTxId: "oj9GzEHQDlK_VQfvGBKFXvyq_zDHdr5m8N0PAU8GysM",
     });
+=======
+>>>>>>> 9abd2272b66949415c62accc7fab80bc9bf5f4e0
     await db.init();
     setForm((await db.get("forms", ["id", "==", formId]))[0]);
     console.log((await db.get("forms", ["id", "==", formId]))[0]);
-    setDB(db);
     setLoadingFormData(false);
+<<<<<<< HEAD
   };
+=======
+    db.getIds("forms").then((ids) => {
+      console.log(ids);
+    })
+  }
+>>>>>>> 9abd2272b66949415c62accc7fab80bc9bf5f4e0
 
   useEffect(() => {
     initDB();
@@ -37,10 +47,20 @@ export default function Home({ params: { formId } }) {
   return (
     <>
       <Navbar />
+<<<<<<< HEAD
       <div className="tabs mt-3 sticky top-0 z-50 bg-white">
         <a className="tab tab-lg tab-lifted tab-active">Editor</a>
         <a className="tab tab-lg tab-lifted Responses (11)">Responses (11)</a>
         <Link className="link" href={`/forms/${formId}`}>Go to form <BiLinkExternal className="inline-block" /></Link>
+=======
+      <div className="flex justify-between tabs mt-3 sticky top-0 z-50 bg-white">
+        <div>
+          <a className="tab tab-lg tab-lifted tab-active">Editor</a>
+          <a className="tab tab-lg tab-lifted Responses (11)">Responses (11)</a>
+        </div>
+        <p className="text-blue-500">https://intelliform.io/forms/{formId}</p>
+        <button className="mr-10 btn btn-primary">Save</button>
+>>>>>>> 9abd2272b66949415c62accc7fab80bc9bf5f4e0
       </div>
       <main className="container mx-auto relative mt-6 ">
         {loadingFormData ? (
@@ -65,6 +85,7 @@ export default function Home({ params: { formId } }) {
               </div>
             </div>
 
+<<<<<<< HEAD
             <div className="inputs">
               {form?.fields?.map((field, index) => {
                 return (
@@ -92,6 +113,55 @@ export default function Home({ params: { formId } }) {
                           className="w-full max-w-4xl input input-bordered"
                           type={field?.type}
                           placeholder={field?.title}
+=======
+            <div className="flex items-center gap-3 mt-3">
+              <span className="text-xl">
+                {form?.description}
+              </span>{" "}
+              <FiEdit />
+            </div>
+          </div>
+
+          <div className="inputs">
+            {
+              form?.fields?.map((field, index) => {
+                return <div className="inputrow">
+                  <div className="flex items-center gap-3 mt-5">
+                    <label className="text-xl font-semibold">{field?.title}</label>
+                    <FiEdit />
+                  </div>
+                  <div className="flex items-center gap-3 mt-3">
+                    {
+                      field?.type === "multiplechoice" ? <select className="w-full max-w-4xl select select-bordered">
+                        {
+                          field?.choices?.map((option) => {
+                            return (
+                              <option>{option}</option>
+                            )
+                          })
+                        }
+                      </select> : field?.type === "longtext" ?
+                        <textarea className="w-full max-w-4xl textarea textarea-bordered" placeholder={field?.title}></textarea>
+                        : <input className="w-full max-w-4xl input input-bordered" type={field?.type} placeholder={field?.title} />
+                    }
+                    <button className="btn btn-sm h-[45px] w-[45px] btn-square btn-outline" onClick={() => {
+                      //remove field from form
+                      form.fields.splice(index, 1);
+                      setForm({ ...form });
+                    }}>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-6 w-6"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
+                          d="M6 18L18 6M6 6l12 12"
+>>>>>>> 9abd2272b66949415c62accc7fab80bc9bf5f4e0
                         />
                       )}
                       <button className="btn btn-sm h-[45px] w-[45px] btn-square btn-outline">
