@@ -3,6 +3,7 @@ import { ethers, Contract } from "ethers";
 import { useEffect, useState } from "react";
 import Payable_abi from "../../../utils/abi.json"
 import Navbar from "../../components/Navbar";
+import { pay } from "../../../utils/pay";
 
 export default function Test() {
   const [contract, setContract] = useState();
@@ -30,7 +31,9 @@ export default function Test() {
     <div>
       <Navbar />
       <h1>Payable</h1>
-      <button className="btn btn-primary" onClick={pay}>Pay 0.0003 MATIC</button>
+      <button className="btn btn-primary" onClick={()=>{
+        pay()
+      }}>Pay 0.0003 MATIC</button>
     </div>
   )
 }

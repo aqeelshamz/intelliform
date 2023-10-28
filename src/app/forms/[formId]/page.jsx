@@ -1,11 +1,13 @@
 "use client";
 import WeaveDB from "weavedb-sdk";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
+import EthersContext from "../../../Context/EthersContext.js";
 
 export default function Home({ params: { formId } }) {
   const [form, setForm] = useState();
   const [db, setDB] = useState();
   const [loadingFormData, setLoadingFormData] = useState(true);
+  const { pay } = useContext(EthersContext);
 
   const initDB = async () => {
     setLoadingFormData(true);
@@ -59,9 +61,15 @@ export default function Home({ params: { formId } }) {
                         placeholder={field?.title}
                       ></textarea>
                     ) : field?.type === "payment" ? (
-                      <div>
-                        <p>Payment</p>
-                      </div>
+                      <button
+                        className="btn btn-primary"
+                        onClick={() => {
+                          console.log(field?.amount);
+                          pay(field?.amount);
+                        }}
+                      >
+                        Register
+                      </button>
                     ) : (
                       <input
                         className="w-full max-w-4xl input input-bordered"
