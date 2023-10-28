@@ -118,6 +118,9 @@ export default function Home() {
     }, [forms]);
 
     useEffect(() => {
+        if(!address){
+            window.location.href = "/";
+        }
         initDB();
     }, [address]);
 
