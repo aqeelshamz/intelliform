@@ -21,7 +21,7 @@ export default function Home({ params: { formId } }) {
 
   const [responses, setResponses] = useState([]);
 
-  const temp = () => { };
+  const temp = () => {};
 
   const initDB = async () => {
     setLoadingFormData(true);
@@ -47,8 +47,12 @@ export default function Home({ params: { formId } }) {
       <Navbar />
       <div className="flex items-center justify-between tabs mt-3 sticky top-0 z-50 border-b bg-white">
         <div>
-          <Link href={"/editor/" + formId} className="tab tab-lg tab-lifted ">Editor</Link>
-          <a className="tab tab-lg tab-lifted tab-active">Responses ({responses.length})</a>
+          <Link href={"/editor/" + formId} className="tab tab-lg tab-lifted ">
+            Editor
+          </Link>
+          <a className="tab tab-lg tab-lifted tab-active">
+            Responses ({responses.length})
+          </a>
         </div>
         <div className="bg-blue-200 p-5">
           <p
@@ -77,7 +81,9 @@ export default function Home({ params: { formId } }) {
               <div className="border-black w-full border-b h-auto  p-3 pl-8 mb-10 pb-10">
                 <div className="row1 title">
                   <div className="">
-                    <span className="text-3xl font-bold ">Responses for '{form?.title}'</span>{" "}
+                    <span className="text-3xl font-bold ">
+                      Responses for '{form?.title}'
+                    </span>{" "}
                   </div>
                 </div>
               </div>
@@ -87,23 +93,40 @@ export default function Home({ params: { formId } }) {
                   <thead>
                     <tr>
                       <th>No.</th>
-                      {form?.fields?.map((field) => {
-                        return <th>{field?.title}</th>;
+                      {form?.fields?.map((field, index) => {
+                        return <th key={index}>{field?.title}</th>;
                       })}
                     </tr>
                   </thead>
                   <tbody>
-                    {
-                      responses?.map((response, index) => {
-                        return <tr>
+                    {responses?.map((response, index) => {
+                      return (
+                        <tr key={index}>
                           <td>{index + 1}</td>
-                          {Object.keys(response?.data?.answers)?.map((key) => {
-                            return <td>{response?.data?.answers[key].toString().includes("https://") ? <Link className="cursor-pointer underline text-blue-500" href={response?.data?.answers[key]} target="_blank">Download</Link> : (response?.data?.answers[key])}</td>
-                          })
-                          }
+                          {Object.keys(response?.data?.answers)?.map(
+                            (key, i) => {
+                              return (
+                                <td key={i}>
+                                  {response?.data?.answers[key]
+                                    .toString()
+                                    .includes("https://") ? (
+                                    <Link
+                                      className="cursor-pointer underline text-blue-500"
+                                      href={response?.data?.answers[key]}
+                                      target="_blank"
+                                    >
+                                      Download
+                                    </Link>
+                                  ) : (
+                                    response?.data?.answers[key]
+                                  )}
+                                </td>
+                              );
+                            }
+                          )}
                         </tr>
-                      })
-                    }
+                      );
+                    })}
                   </tbody>
                   {/* <tfoot>
                     <tr>
