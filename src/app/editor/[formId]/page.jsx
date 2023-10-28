@@ -16,15 +16,16 @@ import { useEffect, useState } from "react";
 import WeaveDB from "weavedb-sdk";
 
 export default function Home({ params: { formId } }) {
-  const temp = () => {
-    document.getElementById("my_modal_2").showModal();
-    document.getElementById("my_modal_1").close();
-  };
+  // const temp = () => {
+  //   document.getElementById("my_modal_2").showModal();
+  //   document.getElementById("my_modal_1").close();
+  // };
 
-  const [db, setDB] = useState();
   const [form, setForm] = useState();
 
   const [loadingFormData, setLoadingFormData] = useState(true);
+
+  const [db, setDB] = useState();
 
   const initDB = async () => {
     setLoadingFormData(true);
@@ -32,9 +33,9 @@ export default function Home({ params: { formId } }) {
       contractTxId: "oj9GzEHQDlK_VQfvGBKFXvyq_zDHdr5m8N0PAU8GysM",
     });
     await db.init();
+    setDB(db);
     setForm((await db.get("forms", ["id", "==", formId]))[0]);
     console.log((await db.get("forms", ["id", "==", formId]))[0]);
-    setDB(db);
     setLoadingFormData(false);
   };
 
@@ -42,13 +43,30 @@ export default function Home({ params: { formId } }) {
     initDB();
   }, []);
 
+  const saveForm = async () => {
+    // console.log(await db.update(form, "forms"));
+    console.log(
+      await db.getIds(await db.get("forms", ["id"], ["id", "==", formId]))[0]
+    );
+  };
+
   return (
     <>
       <Navbar />
-      <div className="tabs mt-3 sticky top-0 z-50 bg-white">
-        <a className="tab tab-lg tab-lifted tab-active">Editor</a>
-        <a className="tab tab-lg tab-lifted Responses (11)">Responses (11)</a>
-        <p className="text-blue-500">https://intelliform.io/forms/{formId}</p>
+      <div className="flex justify-between tabs mt-3 sticky top-0 z-50 bg-white">
+        <div>
+          <a className="tab tab-lg tab-lifted tab-active">Editor</a>
+          <a className="tab tab-lg tab-lifted Responses (11)">Responses (11)</a>
+        </div>
+        <p
+          className="cursor-pointer underline text-blue-500"
+          onClick={() => window.open("http://localhost:3000/forms/" + formId)}
+        >
+          https://intelliform.io/forms/{formId}
+        </p>
+        <button className="mr-10 btn btn-primary" onClick={saveForm}>
+          Save
+        </button>
       </div>
       <main className="container mx-auto relative mt-6 ">
         {loadingFormData ? (
