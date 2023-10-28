@@ -104,10 +104,10 @@ export default function Home() {
                 </div> : <>
                     <p className="text-xl my-4 font-semibold">My forms ({forms.length})</p>
                     <div className="overflow-x-auto">
-                        <table className="table table-zebra bg-gray-200">
+                        <table className="table table-zebra border">
                             {/* head */}
-                            <thead className="bg-gray-400 text-white">
-                                <tr>
+                            <thead>
+                                <tr className="text-[1.2rem]">
                                     <th></th>
                                     <th>Name</th>
                                     <th>Responses</th>
