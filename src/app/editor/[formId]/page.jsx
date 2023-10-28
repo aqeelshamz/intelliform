@@ -32,11 +32,14 @@ export default function Home({ params: { formId } }) {
     console.log((await db.get("forms", ["id", "==", formId]))[0]);
     setLoadingFormData(false);
 <<<<<<< HEAD
+<<<<<<< HEAD
   };
 =======
     db.getIds("forms").then((ids) => {
       console.log(ids);
     })
+=======
+>>>>>>> ff326a0df9bda2f04f4ee574a360488d52457d68
   }
 >>>>>>> 9abd2272b66949415c62accc7fab80bc9bf5f4e0
 
