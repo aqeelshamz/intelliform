@@ -23,6 +23,7 @@ export default function Home({ params: { formId } }) {
   // };
 
   const [form, setForm] = useState();
+  const [tab, setTab] = useState(true);
 
   const [loadingFormData, setLoadingFormData] = useState(true);
 
@@ -58,8 +59,9 @@ export default function Home({ params: { formId } }) {
       <Navbar />
       <div className="flex justify-between tabs mt-3 sticky top-0 z-50 bg-white">
         <div>
-          <a className="tab tab-lg tab-lifted tab-active">Editor</a>
-          <a className="tab tab-lg tab-lifted ">Responses </a>
+          <a className="tab tab-lg tab-lifted tab-active">Responses</a>
+
+          <a className="tab tab-lg tab-lifted ">Editor</a>
         </div>
         <p
           className="cursor-pointer underline text-blue-500"
