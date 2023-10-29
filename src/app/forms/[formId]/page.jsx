@@ -287,7 +287,7 @@ export default function Form({ params: { formId } }) {
         <div className="modal-box w-11/12 max-w-3xl">
           <h3 className="font-bold text-2xl">Access Verification</h3>
           {
-            isNFTValid ? <p className="mt-10 text-xl text-green-500">✅ NFT verified!</p> : <p className="mt-10 text-xl text-red-500">❌ NFT is not valid</p>
+            isNFTValid ? <p className="mt-5 text-xl text-green-500">✅ NFT verified!</p> : <p className="mt-5 text-xl text-red-500">❌ NFT is not valid</p>
           }
           {!isNFTValid ? "" : <div className="mt-10 modal-action flex justify-center ">
             <button
