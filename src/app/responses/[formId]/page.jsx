@@ -6,6 +6,9 @@ import { FaRegFilePdf } from "react-icons/fa";
 import { useEffect, useState } from "react";
 import WeaveDB from "weavedb-sdk";
 import Link from "next/link";
+import { FiCopy } from "react-icons/fi";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function Home({ params: { formId } }) {
   // const temp = () => {
@@ -50,14 +53,13 @@ export default function Home({ params: { formId } }) {
           <Link href={"/editor/" + formId} className="tab tab-lg tab-lifted ">Editor</Link>
           <a className="tab tab-lg tab-lifted tab-active">Responses ({responses.length})</a>
         </div>
-        <div className="bg-blue-200 p-5">
-          <p
-            className="cursor-pointer underline text-blue-500"
-            onClick={() => window.open("http://localhost:3000/forms/" + formId)}
-          >
-            https://intelliform.io/forms/{formId}
-          </p>
-        </div>
+        <div className="flex items-center bg-blue-200 p-5">
+            <p className="cursor-pointer underline text-blue-500" onClick={() => window.open("http://localhost:3000/forms/" + formId)}>https://intelliform.io/forms/{formId}</p>
+            <button className="ml-2 btn btn-primary btn-square" onClick={() => {
+              navigator.clipboard.writeText(`https://intelliform.io/forms/${formId}`);
+              toast.success("Copied to clipboard!");
+            }}><FiCopy /></button>
+          </div>
         <button
           className="m-5 mr-10 btn btn-primary"
           onClick={() => document.getElementById("my_modal_1").showModal()}
@@ -117,6 +119,7 @@ export default function Home({ params: { formId } }) {
             </>
           )}
         </main>
+        <ToastContainer/>
       </>
 
       {/* modal 1 */}

@@ -30,7 +30,7 @@ export default function Home() {
                 className="btn btn-primary text-xl"
                 onClick={() => router.push("/home")}
               >
-                Go to home
+                ⚡️ Get Started
               </button>
             ) : (
               <ConnectButton />
