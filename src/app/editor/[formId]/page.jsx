@@ -8,11 +8,7 @@ import { HiOutlineMail } from "react-icons/hi";
 import { BiSelectMultiple } from "react-icons/bi";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import {
-  MdOutlineShortText,
-  MdOutlineNumbers,
-  MdAttachMoney,
-} from "react-icons/md";
+import { MdOutlineShortText, MdOutlineNumbers, MdAttachMoney } from "react-icons/md";
 import { useEffect, useState } from "react";
 import WeaveDB from "weavedb-sdk";
 import Link from "next/link";
@@ -96,16 +92,14 @@ export default function Home({ params: { formId } }) {
       <div className="flex justify-between tabs mt-3 sticky top-0 z-50 border-b bg-white">
         <div>
           <a className="tab tab-lg tab-lifted tab-active">Editor</a>
-          <Link href={"/responses/" + formId} className="tab tab-lg tab-lifted">
-            Responses
-          </Link>
+          <Link href={"/responses/" + formId} className="tab tab-lg tab-lifted">Responses</Link>
         </div>
-        <button
-          className="cursor-pointer underline bg:text-blue-500 rounded-full"
+        <p
+          className="cursor-pointer underline text-blue-500"
           onClick={() => window.open("http://localhost:3000/forms/" + formId)}
         >
           https://intelliform.io/forms/{formId}
-        </button>
+        </p>
         <button className="m-5 mr-10 btn btn-primary" onClick={saveForm}>
           Save
         </button>
@@ -141,10 +135,14 @@ export default function Home({ params: { formId } }) {
                 <option value="sepolia">Sepolia</option>
               </select>
             </div>
-            <div className="row1 title">
-              <div className="flex items-center gap-3">
-                <span className="text-3xl font-bold ">{form?.title}</span>{" "}
-                <FiEdit />
+            <div className="border-gray-300 w-full border-2 h-auto rounded-xl p-3 pl-8 mb-20 pb-20">
+              <div className="row0 flex justify-end">
+                <button
+                  onClick={deleteForm}
+                  className="btn  text-red-500 hover:bg-red-500 hover:border-white border-red-500 btn-outline"
+                >
+                  <FiTrash2 className="h-6 w-6 " />
+                </button>
               </div>
               <div className="row1 title">
                 <div className="flex items-center gap-3">
@@ -154,65 +152,37 @@ export default function Home({ params: { formId } }) {
                   <span className="text-xl">{form?.description}</span> <FiEdit />
                 </div>
               </div>
-            </div>
-            <div className="inputs">
-              {form?.fields?.map((field, index) => {
-                return (
-                  <div className="inputrow" key={index}>
-                    <div className="flex items-center gap-3 mt-5">
-                      <label className="text-xl font-semibold">
-                        {field?.title}
-                      </label>
-                      <FiEdit />
-                    </div>
-                    <div className="flex items-center gap-3 mt-3">
-                      {field?.type === "multiplechoice" ? (
-                        <select
-                          className="w-full max-w-4xl select select-bordered"
-                          onChange={(e) => {}}
-                        >
-                          {field?.choices?.map((option, id) => {
-                            return <option key={id}>{option}</option>;
-                          })}
-                        </select>
-                      ) : field?.type === "longtext" ? (
-                        <textarea
-                          disabled
-                          className="w-full max-w-4xl textarea textarea-bordered"
-                          placeholder={field?.title}
-                        ></textarea>
-                      ) : field?.type === "payment" ? (
-                        <button className="btn btn-primary">
-                          Pay {field?.amount} MATIC
-                        </button>
-                      ) : (
-                        <input
-                          disabled
-                          className="w-full max-w-4xl input input-bordered"
-                          type={field?.type}
-                          placeholder={field?.title}
-                        />
-                      )}
-                      <button
-                        className="btn btn-sm h-[45px] w-[45px] btn-square btn-outline"
-                        onClick={() => {
-                          //remove field from form
-                          form.fields.splice(index, 1);
-                          setForm({ ...form });
-                        }}
-                      >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          className="h-6 w-6"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth="2"
-                            d="M6 18L18 6M6 6l12 12"
+              <div className="inputs">
+                {form?.fields?.map((field, index) => {
+                  return (
+                    <div className="inputrow" key={index}>
+                      <div className="flex items-center gap-3 mt-5">
+                        <label className="text-xl font-semibold">{field?.title}</label>
+                        <FiEdit />
+                      </div>
+                      <div className="flex items-center gap-3 mt-3">
+                        {field?.type === "multiplechoice" ? (
+                          <select className="w-full max-w-4xl select select-bordered" onChange={(e) => {
+
+                          }}>
+                            {field?.choices?.map((option, id) => {
+                              return <option key={id}>{option}</option>;
+                            })}
+                          </select>
+                        ) : field?.type === "longtext" ? (
+                          <textarea
+                            disabled
+                            className="w-full max-w-4xl textarea textarea-bordered"
+                            placeholder={field?.title}
+                          ></textarea>
+                        ) : field?.type === "payment" ? (
+                          <button className="btn btn-primary">Pay {field?.amount} MATIC</button>
+                        ) : (
+                          <input
+                            disabled
+                            className="w-full max-w-4xl input input-bordered"
+                            type={field?.type}
+                            placeholder={field?.title}
                           />
                         )}
                         <button
@@ -259,66 +229,39 @@ export default function Home({ params: { formId } }) {
         <div className="modal-box max-w-[950px] max-h-[450px]">
           <h3 className="font-bold text-2xl">Choose form input</h3>
           <div className="flex flex-wrap mt-6 gap-5 text-2xl max-w-full overflow-hidden">
-            <button
-              className="flex btn btn-outline  w-[271px] h-[69px] "
-              onClick={temp}
-            >
+            <button className="flex btn btn-outline  w-[271px] h-[69px] " onClick={temp}>
               <MdOutlineShortText size={28} />
               Text
             </button>
-            <button
-              className="flex btn btn-outline  w-[271px] h-[69px] "
-              onClick={temp}
-            >
+            <button className="flex btn btn-outline  w-[271px] h-[69px] " onClick={temp}>
               <BsTextareaResize size={28} />
               Long text
             </button>
-            <button
-              className="flex btn btn-outline  w-[271px] h-[69px] "
-              onClick={temp}
-            >
+            <button className="flex btn btn-outline  w-[271px] h-[69px] " onClick={temp}>
               <HiOutlineMail size={28} />
               Email
             </button>
-            <button
-              className="flex btn btn-outline  w-[271px] h-[69px] "
-              onClick={temp}
-            >
+            <button className="flex btn btn-outline  w-[271px] h-[69px] " onClick={temp}>
               <BiSelectMultiple size={28} />
               Multiple Choice
             </button>
-            <button
-              className="flex btn btn-outline  w-[271px] h-[69px] "
-              onClick={temp}
-            >
+            <button className="flex btn btn-outline  w-[271px] h-[69px] " onClick={temp}>
               <MdOutlineNumbers size={28} />
               Number
             </button>
-            <button
-              className="flex btn btn-outline  w-[271px] h-[69px] "
-              onClick={temp}
-            >
+            <button className="flex btn btn-outline  w-[271px] h-[69px] " onClick={temp}>
               <BsCalendar2Date size={25} />
               Date
             </button>
-            <button
-              className="flex btn btn-outline  w-[271px] h-[69px] "
-              onClick={temp}
-            >
+            <button className="flex btn btn-outline  w-[271px] h-[69px] " onClick={temp}>
               <FaRegFile size={25} />
               File
             </button>
-            <button
-              className="flex btn btn-outline  w-[271px] h-[69px] "
-              onClick={temp}
-            >
+            <button className="flex btn btn-outline  w-[271px] h-[69px] " onClick={temp}>
               <TbPhone size={24} />
               Phone
             </button>
-            <button
-              className="flex btn btn-outline  w-[271px] h-[69px] "
-              onClick={temp}
-            >
+            <button className="flex btn btn-outline  w-[271px] h-[69px] " onClick={temp}>
               <MdAttachMoney size={27} className="-mt-1" />
               Cash
             </button>
