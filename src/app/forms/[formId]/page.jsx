@@ -199,7 +199,7 @@ export default function Form({ params: { formId } }) {
             </div>
           </div>
           <div className="inputs min-w-[50vw]">
-            {form?.fields?.map((field, index) => {
+            {!isNFTValid ? "" : form?.fields?.map((field, index) => {
               return (
                 <div className="inputrow" key={index}>
                   <div className="flex items-center gap-3 mt-5">
@@ -270,7 +270,7 @@ export default function Form({ params: { formId } }) {
               );
             })}
             <hr className="my-5 mt-10" />
-            {submittingForm ? <div className="flex items-center">
+            {!isNFTValid ? "" : submittingForm ? <div className="flex items-center">
               <span className="loading loading-spinner loading-md"></span>
               <p className="font-semibold text-md ml-2">Submitting form...</p>
             </div> : address ? <button className="btn btn-primary" onClick={submitForm}><FiCheckCircle /> Submit form</button> : <div className="flex flex-col">
