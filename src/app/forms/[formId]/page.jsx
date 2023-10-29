@@ -15,6 +15,7 @@ import { BiSelectMultiple } from "react-icons/bi";
 import { BsCalendar2Date, BsTextareaResize } from "react-icons/bs";
 import { FaRegFile } from "react-icons/fa";
 import { TbPhone } from "react-icons/tb";
+import { nftValidate } from "../../../utils/nftValidate";
 
 export default function Form({ params: { formId } }) {
   const [form, setForm] = useState();
@@ -24,13 +25,24 @@ export default function Form({ params: { formId } }) {
 
   const { address } = useAccount();
 
+  const [validatingNFT, setValidatingNFT] = useState(false);
+  const [isNFTValid, setIsNFTValid] = useState(false);
+
   const initDB = async () => {
     setLoadingFormData(true);
     const db = new WeaveDB({
       contractTxId: "oj9GzEHQDlK_VQfvGBKFXvyq_zDHdr5m8N0PAU8GysM",
     });
     await db.init();
-    setForm((await db.get("forms", ["id", "==", formId]))[0]);
+    const form = (await db.get("forms", ["id", "==", formId]))[0];
+    setForm(form);
+    if (form?.nftContractAddress !== "") {
+      setValidatingNFT(true);
+      document.getElementById("my_modal_2").showModal();
+
+      setIsNFTValid(await nftValidate(address));
+      setValidatingNFT(false);
+    }
     console.log((await db.get("forms", ["id", "==", formId]))[0]);
     setDB(db);
     setLoadingFormData(false);
@@ -110,11 +122,11 @@ export default function Form({ params: { formId } }) {
 
     var orderedAnswers = {};
 
-    for(const field of form?.fields){
+    for (const field of form?.fields) {
       orderedAnswers[field?.id] = "";
     }
 
-    for(const field of form?.fields){
+    for (const field of form?.fields) {
       orderedAnswers[field?.id] = answers[field?.id];
     }
 
@@ -145,7 +157,7 @@ export default function Form({ params: { formId } }) {
           Your form has been submitted successfully.
         </p>
         <button className="btn btn-primary mt-10">⚡️ Create your intelliform</button>
-        <hr className="my-10"/>
+        <hr className="my-10" />
         <div className="flex items-center mt-5">
           <p>powered by</p><p className="ml-2 text-xl font-semibold">IntelliForm</p>
         </div>
@@ -248,6 +260,25 @@ export default function Form({ params: { formId } }) {
         </div>
       )}
       <ToastContainer />
+      <dialog id="my_modal_2" className="modal">
+        <div className="modal-box w-11/12 max-w-3xl">
+          <h3 className="font-bold text-2xl">Please verify your identity</h3>
+          <p>Please connect your wallet</p>
+
+          <div className="modal-action mt-2 flex justify-center ">
+            <button
+              className={
+                "btn btn-primary w-full "
+              }
+              onClick={() => {
+
+              }}
+            >
+              Continue
+            </button>
+          </div>
+        </div>
+      </dialog>
     </main>
   );
 }
