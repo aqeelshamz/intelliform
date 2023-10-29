@@ -6,6 +6,9 @@ import { FaRegFilePdf } from "react-icons/fa";
 import { useEffect, useState } from "react";
 import WeaveDB from "weavedb-sdk";
 import Link from "next/link";
+import { FiCopy } from "react-icons/fi";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function Home({ params: { formId } }) {
   // const temp = () => {
@@ -69,7 +72,6 @@ export default function Home({ params: { formId } }) {
           Export
         </button>
       </div>
-
       <>
         <main className="container mx-auto relative mt-6 ">
           {loadingFormData ? (
@@ -140,6 +142,7 @@ export default function Home({ params: { formId } }) {
             </>
           )}
         </main>
+        <ToastContainer/>
       </>
 
       {/* modal 1 */}

@@ -107,9 +107,20 @@ export default function Form({ params: { formId } }) {
 
   const submitForm = async () => {
     setSubmittingForm(true);
+
+    var orderedAnswers = {};
+
+    for(const field of form?.fields){
+      orderedAnswers[field?.id] = "";
+    }
+
+    for(const field of form?.fields){
+      orderedAnswers[field?.id] = answers[field?.id];
+    }
+
     const formResponse = {
       formId: formId,
-      answers: answers,
+      answers: orderedAnswers,
       user: db.signer(),
     };
 
@@ -122,10 +133,10 @@ export default function Form({ params: { formId } }) {
 
   return (
     <main>
-      {formSubmitted ? <div>
+      {formSubmitted ? <div className="bg-white rounded-xl p-10">
         <div className="row1 title">
           <div className="flex items-center gap-3">
-            <span className="text-3xl font-bold ">{form?.title}</span>{" "}
+            <span className="text-3xl font-semibold ">📄 {form?.title}</span>{" "}
           </div>
         </div>
         <hr className="my-5" />
@@ -133,6 +144,11 @@ export default function Form({ params: { formId } }) {
         <p>
           Your form has been submitted successfully.
         </p>
+        <button className="btn btn-primary mt-10">⚡️ Create your intelliform</button>
+        <hr className="my-10"/>
+        <div className="flex items-center mt-5">
+          <p>powered by</p><p className="ml-2 text-xl font-semibold">IntelliForm</p>
+        </div>
       </div> : loadingFormData ? (
         <div className="w-full h-full flex items-center justify-center">
           <span className="loading loading-spinner loading-lg"></span>
@@ -141,7 +157,7 @@ export default function Form({ params: { formId } }) {
         <div className="flex flex-col items-center bg-white rounded-xl py-10 px-20">
           <div className="row1 title flex flex-col items-center">
             <div className="flex items-center gap-3">
-              <span className="text-3xl font-bold ">{form?.title}</span>
+              <span className="text-3xl font-bold ">📄 {form?.title}</span>
             </div>
             <div className="mt-5 flex items-center gap-3">
               <span className="text-md">{form?.description}</span>
@@ -162,7 +178,7 @@ export default function Form({ params: { formId } }) {
                       "phone": <TbPhone className="mr-2" />,
                       "payment": <FiCreditCard className="mr-2" />,
                       "email": <FiAtSign className="mr-2" />,
-                    })[field?.type] ?? <MdOutlineShortText className="mr-2" />}{field?.title}</label>
+                    })[field?.type] ?? <MdOutlineShortText className="mr-2" />}{field?.title} <span className="ml-2 font-semibold text-red-500">*</span></label>
                   </div>
                   <div className="flex items-center gap-3 mt-3">
                     {field?.type === "multiplechoice" ? (

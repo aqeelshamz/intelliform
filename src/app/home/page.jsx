@@ -164,7 +164,7 @@ export default function Home() {
   return (
     <>
       <Navbar />
-      <main className="container mx-auto pt-5">
+      <main className="container mx-auto pt-5 mb-20">
         {loadingForms ? (
           ""
         ) : userNotLoggedIn ? (
@@ -201,6 +201,7 @@ export default function Home() {
                     <th></th>
                     <th>Name</th>
                     <th>Responses</th>
+                    <th>View</th>
                     <th>Edit</th>
                     <th>Delete</th>
                   </tr>
@@ -215,6 +216,17 @@ export default function Home() {
                           {form?.data?.title}
                         </td>
                         <td>0</td>
+                        <td>
+                          <button
+                            className="btn btn-square btn-outline"
+                            onClick={() =>
+                              (window.open(
+                                "/forms/" + form?.data?.id))
+                            }
+                          >
+                            <FiEye className="h-6 w-6" />
+                          </button>
+                        </td>
                         <td>
                           <button
                             className="btn btn-square btn-outline"
