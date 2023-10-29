@@ -1,6 +1,6 @@
 "use client";
 import Navbar from "../../components/Navbar";
-import { FiEdit, FiTrash2 } from "react-icons/fi";
+import { FiEdit, FiTrash2, FiCopy } from "react-icons/fi";
 import { FaRegFile } from "react-icons/fa";
 import { TbPhone } from "react-icons/tb";
 import { BsTextareaResize, BsCalendar2Date } from "react-icons/bs";
@@ -8,7 +8,11 @@ import { HiOutlineMail } from "react-icons/hi";
 import { BiSelectMultiple } from "react-icons/bi";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { MdOutlineShortText, MdOutlineNumbers, MdAttachMoney } from "react-icons/md";
+import {
+  MdOutlineShortText,
+  MdOutlineNumbers,
+  MdAttachMoney,
+} from "react-icons/md";
 import { useEffect, useState } from "react";
 import WeaveDB from "weavedb-sdk";
 import Link from "next/link";
@@ -102,14 +106,29 @@ export default function Home({ params: { formId } }) {
       <div className="flex justify-between tabs mt-3 sticky top-0 z-50 border-b bg-white">
         <div>
           <a className="tab tab-lg tab-lifted tab-active">Editor</a>
-          <Link href={"/responses/" + formId} className="tab tab-lg tab-lifted">Responses</Link>
+          <Link href={"/responses/" + formId} className="tab tab-lg tab-lifted">
+            Responses
+          </Link>
         </div>
-        <p
-          className="cursor-pointer underline text-blue-500"
-          onClick={() => window.open("http://localhost:3000/forms/" + formId)}
-        >
-          https://intelliform.io/forms/{formId}
-        </p>
+        <div className="flex items-center bg-sky-500 p-1 mb-3 px-5 rounded-full">
+          <p
+            className="cursor-pointer underline text-white"
+            onClick={() => window.open("http://localhost:3000/forms/" + formId)}
+          >
+            https://intelliform.io/forms/{formId}
+          </p>
+          <button
+            className="ml-2 btn btn-xs bg-sky-300"
+            onClick={() => {
+              navigator.clipboard.writeText(
+                `http://localhost:3000/forms/${formId}`
+              );
+              toast.success("Copied to clipboard!");
+            }}
+          >
+            <FiCopy />
+          </button>
+        </div>
         <button className="m-5 mr-10 btn btn-primary" onClick={saveForm}>
           Save
         </button>
@@ -122,8 +141,12 @@ export default function Home({ params: { formId } }) {
         ) : (
           <div className="flex flex-col">
             <div className="border-gray-300 w-full border-2 h-auto rounded-xl p-5 mb-5 flex flex-col">
-              <span className="text-2xl font-semibold mb-5">🔑 Form Access Requirement</span>
-              <label className="mb-2 text-md font-semibold">NFT Contract address</label>
+              <span className="text-2xl font-semibold mb-5">
+                🔑 Form Access Requirement
+              </span>
+              <label className="mb-2 text-md font-semibold">
+                NFT Contract address
+              </label>
               <input
                 className="w-full input input-bordered"
                 placeholder="NFT Contract Id"
@@ -158,10 +181,12 @@ export default function Home({ params: { formId } }) {
               </div>
               <div className="row1 title">
                 <div className="flex items-center gap-3">
-                  <span className="text-3xl font-bold ">📄 {form?.title}</span> <FiEdit />
+                  <span className="text-3xl font-bold ">📄 {form?.title}</span>{" "}
+                  <FiEdit />
                 </div>
                 <div className="flex items-center gap-3 mt-3">
-                  <span className="text-xl">{form?.description}</span> <FiEdit />
+                  <span className="text-xl">{form?.description}</span>{" "}
+                  <FiEdit />
                 </div>
               </div>
               <div className="inputs">
@@ -169,14 +194,17 @@ export default function Home({ params: { formId } }) {
                   return (
                     <div className="inputrow" key={index}>
                       <div className="flex items-center gap-3 mt-5">
-                        <label className="text-xl font-semibold">{field?.title}</label>
+                        <label className="text-xl font-semibold">
+                          {field?.title}
+                        </label>
                         <FiEdit />
                       </div>
                       <div className="flex items-center gap-3 mt-3">
                         {field?.type === "multiplechoice" ? (
-                          <select className="w-full max-w-4xl select select-bordered" onChange={(e) => {
-
-                          }}>
+                          <select
+                            className="w-full max-w-4xl select select-bordered"
+                            onChange={(e) => {}}
+                          >
                             {field?.choices?.map((option, id) => {
                               return <option key={id}>{option}</option>;
                             })}
@@ -188,7 +216,9 @@ export default function Home({ params: { formId } }) {
                             placeholder={field?.title}
                           ></textarea>
                         ) : field?.type === "payment" ? (
-                          <button className="btn btn-primary">Pay {field?.amount} MATIC</button>
+                          <button className="btn btn-primary">
+                            Pay {field?.amount} MATIC
+                          </button>
                         ) : (
                           <input
                             disabled
@@ -227,7 +257,9 @@ export default function Home({ params: { formId } }) {
               </div>
               <button
                 className="btn mt-10 mb-5 btn-xs sm:btn-sm md:btn-md lg:btn-lg bg-black hover:bg-gray-700  text-white w-96 lg:w-[896px]"
-                onClick={() => document.getElementById("my_modal_1").showModal()}
+                onClick={() =>
+                  document.getElementById("my_modal_1").showModal()
+                }
               >
                 Add Content
               </button>
@@ -241,39 +273,66 @@ export default function Home({ params: { formId } }) {
         <div className="modal-box max-w-[950px] max-h-[450px]">
           <h3 className="font-bold text-2xl">Choose form input</h3>
           <div className="flex flex-wrap mt-6 gap-5 text-2xl max-w-full overflow-hidden">
-            <button className="flex btn btn-outline  w-[271px] h-[69px] " onClick={temp}>
+            <button
+              className="flex btn btn-outline  w-[271px] h-[69px] "
+              onClick={temp}
+            >
               <MdOutlineShortText size={28} />
               Text
             </button>
-            <button className="flex btn btn-outline  w-[271px] h-[69px] " onClick={temp}>
+            <button
+              className="flex btn btn-outline  w-[271px] h-[69px] "
+              onClick={temp}
+            >
               <BsTextareaResize size={28} />
               Long text
             </button>
-            <button className="flex btn btn-outline  w-[271px] h-[69px] " onClick={temp}>
+            <button
+              className="flex btn btn-outline  w-[271px] h-[69px] "
+              onClick={temp}
+            >
               <HiOutlineMail size={28} />
               Email
             </button>
-            <button className="flex btn btn-outline  w-[271px] h-[69px] " onClick={temp}>
+            <button
+              className="flex btn btn-outline  w-[271px] h-[69px] "
+              onClick={temp}
+            >
               <BiSelectMultiple size={28} />
               Multiple Choice
             </button>
-            <button className="flex btn btn-outline  w-[271px] h-[69px] " onClick={temp}>
+            <button
+              className="flex btn btn-outline  w-[271px] h-[69px] "
+              onClick={temp}
+            >
               <MdOutlineNumbers size={28} />
               Number
             </button>
-            <button className="flex btn btn-outline  w-[271px] h-[69px] " onClick={temp}>
+            <button
+              className="flex btn btn-outline  w-[271px] h-[69px] "
+              onClick={temp}
+            >
               <BsCalendar2Date size={25} />
               Date
             </button>
-            <button className="flex btn btn-outline  w-[271px] h-[69px] " onClick={temp}>
+            <button
+              className="flex btn btn-outline  w-[271px] h-[69px] "
+              onClick={temp}
+            >
               <FaRegFile size={25} />
               File
             </button>
-            <button className="flex btn btn-outline  w-[271px] h-[69px] " onClick={temp}>
+            <button
+              className="flex btn btn-outline  w-[271px] h-[69px] "
+              onClick={temp}
+            >
               <TbPhone size={24} />
               Phone
             </button>
-            <button className="flex btn btn-outline  w-[271px] h-[69px] " onClick={temp}>
+            <button
+              className="flex btn btn-outline  w-[271px] h-[69px] "
+              onClick={temp}
+            >
               <MdAttachMoney size={27} className="-mt-1" />
               Cash
             </button>
