@@ -57,13 +57,25 @@ export default function Home({ params: { formId } }) {
             Responses ({responses.length})
           </a>
         </div>
-        <div className="bg-blue-400 rounded-full p-5 text-white ">
-          <a
-            className="cursor-pointer underline bg:text-blue-500 "
+
+        <div className="flex items-center bg-sky-500 p-1 px-5 rounded-full">
+          <p
+            className="cursor-pointer underline text-white"
             onClick={() => window.open("http://localhost:3000/forms/" + formId)}
           >
             https://intelliform.io/forms/{formId}
-          </a>
+          </p>
+          <button
+            className="ml-2 btn btn-xs bg-sky-300"
+            onClick={() => {
+              navigator.clipboard.writeText(
+                `http://localhost:3000/forms/${formId}`
+              );
+              toast.success("Copied to clipboard!");
+            }}
+          >
+            <FiCopy />
+          </button>
         </div>
         <button
           className="m-5 mr-10 btn btn-primary"
@@ -142,7 +154,7 @@ export default function Home({ params: { formId } }) {
             </>
           )}
         </main>
-        <ToastContainer/>
+        <ToastContainer />
       </>
 
       {/* modal 1 */}
