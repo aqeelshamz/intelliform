@@ -2,8 +2,11 @@
 
 import { useState } from "react";
 import { nftValidate } from "../../../utils/nftValidate.js";
+import { useAccount } from "wagmi";
 
 function Nftpage() {
+  const { address } = useAccount();
+
   const isContractIdValid = (contractId) => {
     // Check if the contract ID is not empty
     if (!contractId || contractId.trim() === "") {
@@ -23,13 +26,13 @@ function Nftpage() {
     <div className="bg-white rounded-lg p-5 w-full h-full flex justify-center items-center">
       <form
         className="input-group-md flex flex-col gap-y-2 w-1/2"
-        onSubmit={() => {
+        onSubmit={(e) => {
           e.preventDefault();
           if (!isContractIdValid(formData.contractId)) {
             alert("Invalid Contract Id");
             return;
           } else {
-            const isValid = nftValidate()
+            const isValid = nftValidate(address)
             console.log(isValid);
             alert("You have successfully submitted the form!");
             return;

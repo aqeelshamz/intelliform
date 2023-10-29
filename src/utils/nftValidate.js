@@ -1,7 +1,7 @@
 import ethers from "ethers";
 import abi from "../utils/balance.json";
 
-export const nftValidate = async () => {
+export const nftValidate = async (address) => {
   // Create an Ethereum provider and signer
   const provider = new ethers.providers.Web3Provider(window.ethereum);
   const signer = provider.getSigner();
@@ -12,7 +12,7 @@ export const nftValidate = async () => {
   );
 
   try {
-    const balance = await contract.balanceOf(tokenId);
+    const balance = await contract.balanceOf(address);
     if (balance.gt(0)) {
       return true;
     } else {
