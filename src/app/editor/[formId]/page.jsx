@@ -28,7 +28,7 @@ export default function Home({ params: { formId } }) {
 
   const [nftContractAddress, setNftContractAddress] = useState("");
   const [chain, setChain] = useState("polygon");
-  
+
   const initDB = async () => {
     setLoadingFormData(true);
     const db = new WeaveDB({
@@ -36,7 +36,8 @@ export default function Home({ params: { formId } }) {
     });
     await db.init();
     setDB(db);
-    setForm((await db.get("forms", ["id", "==", formId]))[0]);
+    const form = (await db.get("forms", ["id", "==", formId]))[0];
+    setForm(form);
     console.log((await db.get("forms", ["id", "==", formId]))[0]);
     setLoadingFormData(false);
     const allForms = await db.cget("forms");
@@ -58,7 +59,7 @@ export default function Home({ params: { formId } }) {
       }
     }
 
-    if(nftContractAddress !== ""){
+    if (nftContractAddress !== "") {
       form.nftContractAddress = nftContractAddress;
       form.chain = chain;
     }
