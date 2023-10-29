@@ -67,7 +67,6 @@ export default function Home({ params: { formId } }) {
           Export
         </button>
       </div>
-
       <>
         <main className="container mx-auto relative mt-6 ">
           {loadingFormData ? (
