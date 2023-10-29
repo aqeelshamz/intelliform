@@ -2,7 +2,7 @@
 import WeaveDB from "weavedb-sdk";
 import { useEffect, useState, useContext } from "react";
 import { ethers, Contract } from "ethers";
-import Payable_abi from "../../../utils/abi.json";
+import Payable_abi from "../../../utils/balance.json";
 import { storeFiles } from "../../../utils/ipfsUpload";
 import { useAccount } from "wagmi";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
@@ -15,9 +15,9 @@ import { BiSelectMultiple } from "react-icons/bi";
 import { BsCalendar2Date, BsTextareaResize } from "react-icons/bs";
 import { FaRegFile } from "react-icons/fa";
 import { TbPhone } from "react-icons/tb";
-import { nftValidate } from "../../../utils/nftValidate";
 
 export default function Form({ params: { formId } }) {
+  let provider = new ethers.BrowserProvider(window.ethereum);
   const [form, setForm] = useState();
   const [db, setDB] = useState();
   const [loadingFormData, setLoadingFormData] = useState(true);
@@ -40,7 +40,7 @@ export default function Form({ params: { formId } }) {
       setValidatingNFT(true);
       document.getElementById("my_modal_2").showModal();
 
-      setIsNFTValid(await nftValidate(address));
+      setIsNFTValid(await validateNft(form?.nftContractAddress));
       setValidatingNFT(false);
     }
     console.log((await db.get("forms", ["id", "==", formId]))[0]);
@@ -141,6 +141,29 @@ export default function Form({ params: { formId } }) {
 
     setFormSubmitted(true);
     toast.success("Form submitted successfully!");
+  };
+
+  const validateNft = async (contractAddress) => {
+    const contract = new ethers.Contract(contractAddress, Payable_abi, provider);
+
+    try {
+      let balance = await contract.balanceOf(address);
+
+      // the balance is in the this form '1n' how to convert it to a number?
+      balance = balance.toString().split("n")[0];
+      console.log(balance);
+
+      if (balance > 0) {
+        return true;
+      } else {
+        return false;
+      }
+
+
+    } catch (error) {
+      console.error("Error fetching balance:", error);
+      return false;
+    }
   };
 
   return (
@@ -262,10 +285,11 @@ export default function Form({ params: { formId } }) {
       <ToastContainer />
       <dialog id="my_modal_2" className="modal">
         <div className="modal-box w-11/12 max-w-3xl">
-          <h3 className="font-bold text-2xl">Please verify your identity</h3>
-          <p>Please connect your wallet</p>
-
-          <div className="modal-action mt-2 flex justify-center ">
+          <h3 className="font-bold text-2xl">Access Verification</h3>
+          {
+            isNFTValid ? <p className="mt-10 text-xl text-green-500">✅ NFT verified!</p> : <p className="text-red-500">❌ NFT is not valid</p>
+          }
+          {!isNFTValid ? "" : <div className="mt-10 modal-action flex justify-center ">
             <button
               className={
                 "btn btn-primary w-full "
@@ -276,7 +300,7 @@ export default function Form({ params: { formId } }) {
             >
               Continue
             </button>
-          </div>
+          </div>}
         </div>
       </dialog>
     </main>
