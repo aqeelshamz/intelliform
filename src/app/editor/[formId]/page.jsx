@@ -74,6 +74,14 @@ export default function Home({ params: { formId } }) {
     toast.success("Form saved successfully!");
   };
 
+  // const isContractIdValid = (contractId) => {
+  //   if (!contractId || contractId.trim() === "") {
+  //     return false;
+  //   }
+  //   const ethereumAddressRegExp = /^(0x)?[0-9a-fA-F]{40}$/;
+  //   return ethereumAddressRegExp.test(contractId);
+  // };
+
   const deleteForm = async () => {
     var docId = "";
     for (const form of allForms) {
