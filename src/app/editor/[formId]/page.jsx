@@ -37,6 +37,8 @@ export default function Home({ params: { formId } }) {
     await db.init();
     setDB(db);
     const form = (await db.get("forms", ["id", "==", formId]))[0];
+    setNftContractAddress(form?.nftContractAddress);
+    setChain(form?.chain);
     setForm(form);
     console.log((await db.get("forms", ["id", "==", formId]))[0]);
     setLoadingFormData(false);
@@ -120,6 +122,7 @@ export default function Home({ params: { formId } }) {
                 onChange={(e) => {
                   setNftContractAddress(e.target.value);
                 }}
+                value={nftContractAddress}
                 required
               ></input>
               <label className="mt-5 mb-2 text-md font-semibold">Chain</label>
@@ -128,6 +131,7 @@ export default function Home({ params: { formId } }) {
                 onChange={(e) => {
                   setChain(e.target.value);
                 }}
+                value={chain}
                 required
               >
                 <option value="polygon">Polygon</option>
