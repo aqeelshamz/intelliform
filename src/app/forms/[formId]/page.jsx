@@ -26,7 +26,7 @@ export default function Form({ params: { formId } }) {
   const { address } = useAccount();
 
   const [validatingNFT, setValidatingNFT] = useState(false);
-  const [isNFTValid, setIsNFTValid] = useState(false);
+  const [isNFTValid, setIsNFTValid] = useState(true);
 
   const initDB = async () => {
     setLoadingFormData(true);
@@ -36,7 +36,7 @@ export default function Form({ params: { formId } }) {
     await db.init();
     const form = (await db.get("forms", ["id", "==", formId]))[0];
     setForm(form);
-    if (form?.nftContractAddress !== "") {
+    if (form?.nftContractAddress !== "" && form?.nftContractAddress !== null && form?.nftContractAddress !== undefined) {
       setValidatingNFT(true);
       document.getElementById("my_modal_2").showModal();
 
@@ -168,6 +168,7 @@ export default function Form({ params: { formId } }) {
 
   return (
     <main>
+      {loadingFormData ? "" : <div className="mb-5"><ConnectButton /></div>}
       {formSubmitted ? <div className="bg-white rounded-xl p-10">
         <div className="row1 title">
           <div className="flex items-center gap-3">
@@ -287,18 +288,18 @@ export default function Form({ params: { formId } }) {
         <div className="modal-box w-11/12 max-w-3xl">
           <h3 className="font-bold text-2xl">Access Verification</h3>
           {
-            isNFTValid ? <p className="mt-5 text-xl text-green-500">✅ NFT verified!</p> : <p className="mt-5 text-xl text-red-500">❌ NFT is not valid</p>
+            validatingNFT ? <p className="mt-5 text-xl text-green-500">🔑 Checking NFT...</p> : isNFTValid ? <p className="mt-5 text-xl text-green-500">✅ NFT verified!</p> : <p className="mt-5 text-xl text-red-500">❌ NFT is not valid</p>
           }
-          {!isNFTValid ? "" : <div className="mt-10 modal-action flex justify-center ">
+          {validatingNFT ? "" : <div className="mt-10 modal-action flex justify-center ">
             <button
               className={
                 "btn btn-primary w-full "
               }
               onClick={() => {
-
+                document.getElementById("my_modal_2").close();
               }}
             >
-              Continue
+              {isNFTValid ? "Continue" : "Close"}
             </button>
           </div>}
         </div>

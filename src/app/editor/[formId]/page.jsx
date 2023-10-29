@@ -69,6 +69,10 @@ export default function Home({ params: { formId } }) {
       form.nftContractAddress = nftContractAddress;
       form.chain = chain;
     }
+    else{
+      form.nftContractAddress = "";
+      form.chain = "";
+    }
 
     console.log(await db.update(form, "forms", docId));
     toast.success("Form saved successfully!");
