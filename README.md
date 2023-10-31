@@ -22,7 +22,7 @@ We have developed an AI-driven system for creating registration forms that simpl
 
 ## Web3 Technologies used
 
-### Polygon - Built on Ethereum + Polygon
+### Polygon - Built on Ethereum + Polygon (NFT Validation)
 ![image](https://github.com/aqeelshamz/intelliform/assets/69390743/06f43a42-2506-4f95-b8c8-89656039a1f7)
 
 ### WeaveDB - Used to store form responses
