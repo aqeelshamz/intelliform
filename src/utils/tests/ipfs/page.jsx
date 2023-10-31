@@ -1,5 +1,5 @@
 "use client";
-import { storeFiles } from "../../../utils/ipfsUpload";
+import { storeFiles } from "../../ipfsUpload";
 import { useState } from "react";
 
 export default function Test() {

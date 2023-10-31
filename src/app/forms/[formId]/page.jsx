@@ -2,7 +2,8 @@
 import WeaveDB from "weavedb-sdk";
 import { useEffect, useState, useContext } from "react";
 import { ethers, Contract } from "ethers";
-import Payable_abi from "../../../utils/balance.json";
+import Payable_abi from "../../../utils/abi.json";
+import NFT_abi from "../../../utils/balance.json";
 import { storeFiles } from "../../../utils/ipfsUpload";
 import { useAccount } from "wagmi";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
@@ -144,7 +145,7 @@ export default function Form({ params: { formId } }) {
   };
 
   const validateNft = async (contractAddress) => {
-    const contract = new ethers.Contract(contractAddress, Payable_abi, provider);
+    const contract = new ethers.Contract(contractAddress, NFT_abi, provider);
 
     try {
       let balance = await contract.balanceOf(address);
