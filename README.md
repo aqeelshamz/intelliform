@@ -1,5 +1,9 @@
 # IntelliForm
 
+![image](https://github.com/aqeelshamz/intelliform/assets/69390743/50b03d84-48a2-457e-8396-52522d0c897a)
+![image](https://github.com/aqeelshamz/intelliform/assets/69390743/1be62072-c0cd-424e-8a7a-8001d116e59d)
+![image](https://github.com/aqeelshamz/intelliform/assets/69390743/352295e1-463c-4ab7-b6c4-eee7aacde47d)
+
 ## The problem IntelliForm solves
 
 Collecting data from people is essential for different purposes. It can be for event registration, feedback forms, opinion surveys. But filling up our valuable personal data and opinion comes with a lot of risk. Data is gold. The data we enter into a google form is not guaranteed to be safe. By doing so we are compromising our privacy. The opinion we fill up in a survey is not safe from manipulation. The central entity storing the data may use it for its own interests. It can be for advertising, social profiling. We are not the owner of our data.
