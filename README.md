@@ -20,4 +20,15 @@ Implementation of NFT validation was challenging. We deployed contracts and mint
 
 We have developed an AI-driven system for creating registration forms that simplifies the process by generating forms based on prompts. Additionally, users have the flexibility to customize forms or create them entirely from scratch. These forms can seamlessly integrate payment acceptance for registrants, and form creators can employ NFT validation to ensure that users possess NFTs from a specific collection. To enhance security, user data is encrypted and stored on the blockchain, specifically on the Polygon blockchain, to facilitate NFT and payment verification. The frontend of this system is deployed on Replit.
 
+## Web3 Technologies used
+
+### Polygon - Built on Ethereum + Polygon
+![image](https://github.com/aqeelshamz/intelliform/assets/69390743/06f43a42-2506-4f95-b8c8-89656039a1f7)
+
+### WeaveDB - Used to store form responses
+![Screenshot 2023-10-31 at 11 22 16 AM](https://github.com/aqeelshamz/intelliform/assets/69390743/84d4f8ce-1c7b-4f52-bd1d-1ddf882010b5)
+
+### IPFS - Used to store files recieved via the forms
+![image](https://github.com/aqeelshamz/intelliform/assets/69390743/be525bdf-fdf8-486e-be11-67d4994c040b)
+
 
